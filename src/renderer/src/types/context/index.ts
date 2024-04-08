@@ -1,5 +1,6 @@
-import { ReactNode } from "react"
+import { TypeBaseConfig } from ".."
 
+// ------------ Audio Context
 export type TypeAudioConfig = {
     State: boolean,
     Amplifier: number,
@@ -17,6 +18,26 @@ export interface AudioContextProps {
     ModifyState: TypeModifyAudioState
 }
 
-export interface Contextinterface {
-    children: ReactNode
+// ------------ Memory Context
+export type TypeModifyMemoryState = ({ action, value }: typeMemoryReducerSettings) => void
+export interface typeMemoryReducerSettings {
+    action: "Fullscreen" | "Settings" | "SettingRouter" | "AvatarsShowcase" | "SettingsPreload",
+    value: boolean | string | TypeBaseConfig
+}
+export type DefaultValuesMemory = {
+    Fullscreen: boolean,
+    Settings: boolean,
+    SettingRouter: "Appareance" | "Advanced" | "Audio",
+    AvatarsShowcase: boolean,
+}
+export interface MemoryContextProps {
+    MemoryState: DefaultValuesMemory,
+    ModifyState: TypeModifyMemoryState
+}
+// ------------ Avatars Context
+
+
+// ------------ Settings Context
+export interface SettingContextProps {
+
 }
