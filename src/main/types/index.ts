@@ -1,4 +1,24 @@
-import { ReactNode } from "react"
+import { WriteStream } from "node:fs"
+
+export interface IntDownloadFiles {
+    DownloadUrl: string,
+    FileStream: WriteStream,
+    FileLocation: string
+}
+
+export type TypeModelsConfigIndividual = {
+    Id: number,
+    Name: string,
+    Owner: string,
+    Date: string,
+    Image: string,
+    Data: {
+        States: [
+            string[]
+        ]
+    },
+    URL: string
+}
 
 export type TypeBaseConfig = {
     Resources: string,
@@ -18,20 +38,4 @@ export type TypeBaseConfig = {
     }
 }
 
-export type TypeModelConfigBase = {
-    Id: number,
-    Name: string,
-    Owner: string,
-    Date: string,
-    Image: string,
-    Data: {
-        States: [
-            string[]
-        ]
-    },
-    URL: string
-}[]
-
-export interface Contextinterface {
-    children: ReactNode
-}
+export type TypeModelsConfig = TypeModelsConfigIndividual[]

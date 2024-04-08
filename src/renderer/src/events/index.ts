@@ -9,7 +9,6 @@ export default function useEventsDefinitios() {
     const { Fullscreen } = MemoryState;
 
     useEffect(() => {
-        console.log(MemoryState.Fullscreen);
         if (Fullscreen && !document.fullscreenElement) {
             document.getElementById('Main')!.requestFullscreen()
         } else if (!Fullscreen && document.fullscreenElement && document.exitFullscreen) {
