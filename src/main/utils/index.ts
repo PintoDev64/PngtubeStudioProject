@@ -52,7 +52,6 @@ export const ReadPasswords: Promise<{ key: Buffer, iv: Buffer }> = new Promise((
 
 export async function EncriptData(key: Buffer, iv: Buffer, data: string) {
     try {
-
         // Crear un objeto Cipher usando el algoritmo AES-256-CBC
         const cipher = createCipheriv('aes-256-cbc', key, iv);
 
