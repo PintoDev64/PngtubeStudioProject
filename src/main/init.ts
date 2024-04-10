@@ -3,14 +3,20 @@ import { mkdirSync, writeFileSync, existsSync, createWriteStream } from "node:fs
 import { homedir } from "node:os";
 import { join } from "node:path";
 
+import icon from '../../resources/Ookami.ico?asset'
+
 // Types
 import { TypeBaseConfig, TypeModelsConfig } from "./types";
 import { DownloadModels, DownloadResourcesLink, pathsConfig } from "./constants";
 import { DownloadFiles, EncriptData, } from "./utils";
 import { randomBytes } from "node:crypto";
 import { Ookami, Ookami2 } from "./assets";
+import { Notification } from "electron";
 
 export default function InitProcess() {
+
+    const NOTIFICATION_TITLE = 'Configuracion Creada'
+    const NOTIFICATION_BODY = 'Vuelve a abrir el programa'
 
     const KeyValuesDecripters = {
         key: randomBytes(32),
@@ -19,17 +25,19 @@ export default function InitProcess() {
 
     const baseConfig: TypeBaseConfig = {
         Resources: `${join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Resources')}`,
-        Wallpapers: `${join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Wallpapers')}`,
+        /* Wallpapers: `${join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Wallpapers')}`, */
         Avatars: `${join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Avatars')}`,
         Model: 'Ookami',
         Config: {
-            AudioFftsize: 64,
+            AudioFftsize: 128,
             hardwareAcceleration: true,
+            NoiseSupression: true,
+            EchoCancellation: true,
             trayMenu: true,
             Custom: {
                 type: 'Color', // Color | Image
                 colorBackground: '#00ff00', // Hex
-                wallpaper: 'Default', // Wallpaper File Name
+                /* wallpaper: 'Default',  */// Wallpaper File Name
                 brightness: 100
             }
         }
@@ -183,6 +191,11 @@ export default function InitProcess() {
             console.log("Execute CreateWallpapers"); */
             await CreateAvatars();
             console.log("Execute Application");
+            new Notification({
+                title: NOTIFICATION_TITLE,
+                body: NOTIFICATION_BODY,
+                icon
+            }).show()
         } catch (error) {
             console.error("Error:", error);
         }

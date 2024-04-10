@@ -1,34 +1,29 @@
-# pngtubestudio
+## PngtubeStudio
 
-An Electron application with React and TypeScript
+![PngtubeStudio Logo](./resources/PNGtube_Logo_Github.png)
 
-## Recommended IDE Setup
+This project seeks to be an alternative for PNGtubers, integrating tools more dedicated to said format, seeking to be a program based on community comments.
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+*This project was bootstrapped with [NodeJs](https://nodejs.org), [ElectronJs](https://www.electronjs.org), [Vite](https://vitejs.dev/) and [ReactJs](https://react.dev) with the package [Electron-Vite](https://electron-vite.org/)*
 
-## Project Setup
-
-### Install
+## Instalation
 
 ```bash
-$ npm install
+git clone https://github.com/PintoGamer64/PngtubeStudioProject.git
 ```
-
-### Development
 
 ```bash
-$ npm run dev
+cd PngtubeStudioProject
 ```
-
-### Build
 
 ```bash
-# For windows
-$ npm run build:win
-
-# For macOS
-$ npm run build:mac
-
-# For Linux
-$ npm run build:linux
+npm install | bun install
 ```
+
+## Console Scripts
+
+#### *Available Scripts*
+
+- **`start`** Start the Electron aplication with the build
+- **`dev`** Start the project with hot realod UI
+- **`build`** Create a package distributable

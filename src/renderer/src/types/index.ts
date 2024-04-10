@@ -2,17 +2,19 @@ import { ReactNode } from "react"
 
 export type TypeBaseConfig = {
     Resources: string,
-    Wallpapers: string,
+    /* Wallpapers: string, */
     Model: string,
     Avatars: string,
     Config: {
         AudioFftsize:  32 | 64 | 128 | 256 | 512 | 1024 | 2048 | 4096,
         hardwareAcceleration: boolean,
+        NoiseSupression: boolean,
+        EchoCancellation: boolean,
         trayMenu: boolean,
         Custom: {
             type: 'Color' | 'Image',
             colorBackground: `#${string}`,
-            wallpaper: string,
+            /* wallpaper: string, */
             brightness: number
         }
     }

@@ -1,4 +1,4 @@
-appId: com.electron.app
+appId: com.pngtubestudio.app
 productName: pngtubestudio
 directories:
   buildResources: build
@@ -13,6 +13,11 @@ asarUnpack:
   - resources/**
 win:
   executableName: pngtubestudio
+  publish:
+    provider: github
+    protocol: https
+    owner: PintoGamer64
+    repo: PngtubeStudioProject
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

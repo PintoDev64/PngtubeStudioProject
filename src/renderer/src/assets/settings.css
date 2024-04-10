@@ -1,0 +1,365 @@
+#Settings {
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    position: absolute;
+    place-items: center;
+    top: 0;
+    left: 0;
+    background: #00000050;
+    padding: 10px 0 10px 20px;
+    box-sizing: border-box;
+}
+
+#SettingsMain {
+    height: 100%;
+    min-height: 500px;
+    max-height: 500px;
+    max-width: 800px;
+    border-radius: 2.5px;
+    display: grid;
+    background-color: #fff;
+    grid-template: "navigator viewer viewer" "navigator viewer viewer" "navigator viewer viewer"
+}
+
+#SettingsList {
+    display: grid;
+    grid-area: navigator;
+    min-width: 200px;
+    place-items: center;
+}
+
+#SettingsList-Content {
+    width: calc(100% - 16px);
+    border-radius: 2.5px;
+    background: #00000030;
+    height: calc(100% - 16px);
+    display: grid;
+    grid-template:
+        "image" 120px
+        "content";
+}
+
+#SettingsList-Content-Image {
+    grid-area: image;
+    display: grid;
+    place-items: center;
+    border-bottom: 4px solid #ffffff;
+}
+
+#SettingsList-Content-Image-Element {
+    width: 120px;
+}
+
+#SettingsList-Content-Scroll {
+    grid-area: content;
+}
+
+#SettingsView {
+    grid-area: viewer;
+    padding: 0 28px 8px 20px;
+    min-width: 490px;
+    display: grid;
+    grid-template:
+        "tool" 65px
+        "content";
+}
+
+#SettingsView-Tool {
+    margin: 0;
+    height: 50px;
+    display: flex;
+    grid-area: tool;
+    padding: 0 2px;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #00000030;
+}
+
+#SettingsView-Tool-CloseButton {
+    border: none;
+    width: 30px;
+    background: none;
+    height: 30px;
+    box-sizing: border-box;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+    transition: all .1s ease;
+    cursor: pointer;
+}
+
+#SettingsView-Tool-CloseButton svg {
+    transform: scale(1.5);
+}
+
+#SettingsView-Tool-CloseButton:hover {
+    background: #00000030;
+}
+
+#SettingsView-Content {
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+    grid-area: content;
+    height: 100%;
+    padding: 10px 0 0 0;
+}
+
+#SettingsList-Content-Scroll-Capsule {
+    list-style: none;
+    width: 100%;
+    margin: 0;
+    padding: 10px 10px;
+    box-sizing: border-box;
+    height: 100%;
+    overflow: hidden;
+}
+
+.SettingsList-Content-Scroll-Element {
+    position: relative;
+    list-style: none;
+    border-radius: 2.5px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 31px;
+    padding: 5px 10px;
+    cursor: pointer;
+    display: flex;
+    font-weight: 600;
+    align-items: center;
+}
+
+.SettingsList-Content-Scroll-Element:hover {
+    background: #b9b9b9;
+}
+
+.SettingsList-Content-Scroll-Element:hover:before {
+    position: absolute;
+    content: "";
+    right: -18px;
+    width: 20px;
+    height: 31px;
+    background: #b9b9b9;
+}
+
+.SettingsList-Content-Scroll-Element:nth-child(even) {
+    margin: 5px 0;
+}
+
+.OptionsElement-Execution-Select {
+    appearance: none;
+    text-align: center;
+    width: 100%;
+    border: none;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    height: 100%;
+    font-weight: bold;
+    font-size: medium;
+}
+
+.SettingsRouter-Selected:before {
+    position: absolute;
+    content: "";
+    right: -18px;
+    width: 20px;
+    height: 31px;
+    background: #ffffff;
+}
+
+.SettingsRouter-Selected:hover:before {
+    position: absolute;
+    content: "";
+    right: -20px;
+    width: 20px;
+    height: 31px;
+    background: #ffffff;
+}
+
+.SettingsRouter-Selected {
+    background: #ffffff;
+}
+
+.SettingsRouter-Selected:hover {
+    background: #ffffff
+}
+
+.SettingsOpen {
+    display: grid;
+}
+
+#SettingsMain {
+    animation: OpenSettings .15s ease;
+}
+
+.SettingClose {
+    display: none;
+}
+
+@keyframes OpenSettings {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Settings Elements */
+
+.OptionsElement {
+    width: 100%;
+    display: flex;
+}
+
+.OptionsElement:nth-child(even) {
+    margin: 20px 0;
+}
+
+.OptionsElement-Data {
+    display: flex;
+    width: 80%;
+    font-size: x-small;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.OptionsElement-Execution {
+    width: 75px;
+    max-width: 75px;
+    min-width: 75px;
+    display: flex;
+    margin: 0 auto;
+    grid-area: option;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.OptionsElement-Execution-ColorSchema {
+    margin: 0 30px 0 0;
+    width: 26px;
+    height: 26px;
+    outline: 2px solid #000;
+}
+
+.OptionsElement-Execution-Input {
+    overflow: hidden;
+    position: relative;
+    background: #ffffff;
+    appearance: none;
+    display: flex;
+    width: 35px;
+    height: 17.5px;
+    border: none;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    transition: all .2s ease;
+    align-items: center
+}
+
+.OptionsElement-Execution-Input:after {
+    transition: all .2s ease;
+    position: absolute;
+    box-sizing: border-box;
+    content: "";
+    width: 50%;
+    height: 15px;
+}
+
+.OptionsElement-Execution-InputColor {
+    position: relative;
+    appearance: none;
+    width: 100px;
+    height: 20px;
+    border: none;
+    background: linear-gradient(to right, red, yellow, lime, cyan, blue, magenta, red);
+    cursor: pointer;
+}
+
+.OptionsElement-Execution-InputColor::-webkit-slider-thumb {
+    position: relative;
+    -webkit-appearance: none;
+    width: 5px;
+    height: 20px;
+    z-index: 5;
+    background: #000000;
+    transition: all .2s
+}
+
+.OptionsElement-Execution-InputColor::-webkit-slider-thumb::before {
+    position: absolute;
+    content: "";
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 20px;
+    background-color: #000000;
+}
+
+.Execution-Off:after {
+    left: 0;
+    transition: all .2s ease;
+    outline: 1px solid #000000;
+    background: #000000;
+}
+
+.Execution-Allow:after {
+    right: 0;
+    background: #00ccff;
+}
+
+#SettingsView-Content-Confirm {
+    position: absolute;
+    bottom: 0;
+    height: 35px;
+    box-sizing: border-box;
+    border-radius: 2.5px;
+    width: 100%;
+    background: #00000030;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#SettingsView-Content-Confirm-Options {
+    display: flex;
+}
+
+.SettingsView-Content-Confirm-Options_Buttons {
+    width: 90px;
+    border: none;
+    height: 25px;
+    color: #000000;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all .2s ease;
+    display: grid;
+    place-content: center;
+}
+
+#SettingsView-Content-Confirm-Options_Discard {
+    margin: 0 10px 0 0;
+    background: transparent;
+}
+
+#SettingsView-Content-Confirm-Options_Discard:hover {
+    transform: scale(0.9);
+    background: #ffffff
+}
+
+.SettingsView-Content-Confirm-Good {
+    background: #04dc1e;
+    color: #000000;
+}
+.SettingsView-Content-Confirm-Failure {
+    background: #ff2f00;
+    color: #ffffff;
+}
+
+#SettingsView-Content-Confirm-Options_Save:hover {
+    transform: scale(0.9);
+}

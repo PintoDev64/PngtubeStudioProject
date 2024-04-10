@@ -8,7 +8,6 @@ export default function UpdateCanvasVolume({
     Volume
 }: TypeUpdateCanvasVolume
 ): void {
-
     if (AudioState.State) {
         if (Volume > AudioState.Amplifier) ModifyState(Math.floor(AudioState.Amplifier))
         else ModifyState(Math.floor(Volume))

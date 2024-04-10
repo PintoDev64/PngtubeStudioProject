@@ -1,17 +1,26 @@
-import { app, shell, BrowserWindow, ipcMain, session } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, session, Tray, Menu } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
+import icon from '../../resources/Ookami.ico?asset'
 import { homedir } from 'os';
 
 // Imports
 import API_Initializer from './api';
+import InitProcess from './init';
+import { existsSync } from 'fs';
+
+// init's
+let reactDevToolsPath: string;
+let ZoomFactorLevel = 1
+let tray: Tray;
 
 //DevToools
-const reactDevToolsPath = join(
-  homedir(),
-  'AppData/Local/Google/Chrome/User Data/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/5.0.2_0'
-)
+if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+  reactDevToolsPath = join(
+    homedir(),
+    'AppData/Local/Google/Chrome/User Data/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/5.0.2_0'
+  )
+}
 
 // MainWindow
 let mainWindow: BrowserWindow;
@@ -23,9 +32,10 @@ function createWindow(): void {
     height: 720,
     minWidth: 1280,
     minHeight: 720,
+    frame: false,
     show: false,
     autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    icon,
     titleBarStyle: "hidden",
     center: true,
     webPreferences: {
@@ -43,6 +53,10 @@ function createWindow(): void {
     return { action: 'deny' }
   })
 
+  /* mainWindow.webContents.openDevTools({
+    mode: 'undocked'
+  }) */
+
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
@@ -58,8 +72,19 @@ function createWindow(): void {
 app.whenReady().then(async () => {
 
   await session.defaultSession.loadExtension(reactDevToolsPath)
+
+  tray = new Tray(icon)
+  const contextMenu = Menu.buildFromTemplate([
+    { label: 'Item1', type: 'radio' },
+    { label: 'Item2', type: 'radio' },
+    { label: 'Item3', type: 'radio', checked: true },
+    { label: 'Item4', type: 'radio' }
+  ])
+  tray.setToolTip('This is my application.')
+  tray.setContextMenu(contextMenu)
+
   // Set app user model id for windows
-  electronApp.setAppUserModelId('com.pngtubestudio.electron.app')
+  electronApp.setAppUserModelId('com.pngtubestudio.app')
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
@@ -79,8 +104,22 @@ app.whenReady().then(async () => {
     if (mainWindow.isMaximized()) return mainWindow.restore();
     return mainWindow.maximize();
   });
+  ipcMain.on('ZoomPlus', () => {
+    ZoomFactorLevel = ZoomFactorLevel + 0.1
+    mainWindow.webContents.setZoomFactor(ZoomFactorLevel)
+  });
+  ipcMain.on('ZoomMinus', () => {
+    ZoomFactorLevel = ZoomFactorLevel - 0.1
+    mainWindow.webContents.setZoomFactor(ZoomFactorLevel)
+  });
+  API_Initializer()
 
-  createWindow()
+  if (!existsSync(join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\bin'))) {
+    await InitProcess().__Init__()
+    app.quit();
+  } else {
+    createWindow()
+  }
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

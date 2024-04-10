@@ -7,13 +7,17 @@ import MaxMin from "./assets/icons/MaxMin";
 import Minimize from "./assets/icons/Minimize";
 import SettingsIcon from "./assets/icons/Settings";
 // Utilitys
-import { PngtubeStudioAPI } from "./utils";
+import { WindowAPI } from "./utils";
 // Contexts
 import { MemoryContext } from "./context";
+// Events
+import useEventsDefinitios from "./events";
 
 export default function Header() {
 
-    const { CloseWindow, MinMaxWindow, MinimizeWindow } = PngtubeStudioAPI()
+    useEventsDefinitios()
+
+    const { CloseWindow, MinMaxWindow, MinimizeWindow, ZoomPlus, ZoomMinus } = WindowAPI()
 
     const { MemoryState, ModifyState } = useContext(MemoryContext)
 
@@ -21,6 +25,10 @@ export default function Header() {
         ModifyState({
             action: "Settings",
             value: !MemoryState.Settings
+        })
+        ModifyState({
+            action: "SettingRouter",
+            value: "Appareance"
         })
     }
 
@@ -34,10 +42,16 @@ export default function Header() {
     return (
         <header id="PngtubeStudio_Header">
             <div id="PngtubeStudio_HeaderButtons">
-                <button className="PngtubeStudio_HeaderButtons_Elements" id="Settings" onClick={SettingsRequest}>
+                <button className="PngtubeStudio_HeaderButtons_Elements" id="ZoomMinusButton" onClick={ZoomMinus}>
+                    <Minimize />
+                </button>
+                <button className="PngtubeStudio_HeaderButtons_Elements" id="ZoomPlusButton" onClick={ZoomPlus}>
+                    <Close />
+                </button>
+                <button className="PngtubeStudio_HeaderButtons_Elements" id="SettingsButton" onClick={SettingsRequest}>
                     <SettingsIcon />
                 </button>
-                <button className="PngtubeStudio_HeaderButtons_Elements" id="FullScreen" onClick={FullscreenRequest}>
+                <button className="PngtubeStudio_HeaderButtons_Elements" id="FullScreenButton" onClick={FullscreenRequest}>
                     <EnterFullscreen />
                 </button>
             </div>

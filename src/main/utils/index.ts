@@ -62,6 +62,7 @@ export async function EncriptData(key: Buffer, iv: Buffer, data: string) {
         return encryptedData
     } catch (error: any) {
         console.error('Error al encriptar el archivo JSON:', error.message);
+        return
     }
 }
 
@@ -77,11 +78,12 @@ export async function DecryptData(fileLoc: string, key: Buffer, iv: Buffer) {
         const decryptedData = Buffer.concat([decipher.update(encryptedData), decipher.final()]);
 
         // Convertir la cadena descifrada a objeto JSON
-        const decryptedJson = JSON.parse(decryptedData.toString('utf-8'));
+        const decryptedJson: JSON = JSON.parse(decryptedData.toString('utf-8'));
 
         return decryptedJson
     } catch (error: any) {
         console.error('Error al desencriptar el archivo JSON:', error.message);
+        return
     }
 }
 

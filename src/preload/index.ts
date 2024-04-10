@@ -6,7 +6,19 @@ const api = {
   Window: {
     Minimize: () => ipcRenderer.send("minimize"),
     MinMax: () => ipcRenderer.send("restore"),
-    Close: () => ipcRenderer.send("close")
+    Close: () => ipcRenderer.send("close"),
+    ZoomPlus: () => ipcRenderer.send("ZoomPlus"),
+    ZoomMinus: () => ipcRenderer.send("ZoomMinus")
+  },
+  Settings: {
+    Receive: () => ipcRenderer.sendSync("SettingsReceiver"),
+    Send: (_data) => ipcRenderer.sendSync("SettingsSender", { _data })
+  },
+  Models: {
+    Receiver: () => ipcRenderer.sendSync("ModelsReceiver")
+  },
+  App: {
+    Checker: () => ipcRenderer.send("SettingsChecker")
   }
 }
 
