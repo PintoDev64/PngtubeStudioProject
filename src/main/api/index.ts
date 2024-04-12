@@ -1,15 +1,8 @@
 import { ipcMain } from "electron";
-import { join } from "node:path";
-import { homedir } from "node:os";
 import { TypeBaseConfig } from "../types";
 import { ReadFileBynari, WriteFileBynari } from "./utils";
 import { existsSync } from "node:fs";
-
-const Routes = {
-    Bin: join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\bin'),
-    Settings: join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\settings'),
-    Avatars: join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Avatars\\avatars')
-}
+import { Routes } from "../constants";
 
 export default function API_Initializer() {
     // Ipc Events

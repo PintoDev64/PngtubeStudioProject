@@ -1,5 +1,5 @@
 // Node Modules
-import { mkdirSync, writeFileSync, existsSync, createWriteStream } from "node:fs";
+import { mkdirSync, writeFileSync, existsSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 
@@ -7,8 +7,8 @@ import icon from '../../resources/Ookami.ico?asset'
 
 // Types
 import { TypeBaseConfig, TypeModelsConfig } from "./types";
-import { DownloadModels, DownloadResourcesLink, pathsConfig } from "./constants";
-import { DownloadFiles, EncriptData, } from "./utils";
+import { pathsConfig } from "./constants";
+import { EncriptData, } from "./utils";
 import { randomBytes } from "node:crypto";
 import { Ookami, Ookami2 } from "./assets";
 import { Notification } from "electron";
@@ -24,9 +24,8 @@ export default function InitProcess() {
     }
 
     const baseConfig: TypeBaseConfig = {
-        Resources: `${join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Resources')}`,
         /* Wallpapers: `${join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Wallpapers')}`, */
-        Avatars: `${join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Avatars')}`,
+        Avatars: `${join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\avatars')}`,
         Model: 'Ookami',
         Config: {
             AudioFftsize: 128,
@@ -104,7 +103,7 @@ export default function InitProcess() {
     }
 
     async function CreateConfigModels(): Promise<void> {
-        const searchPath = join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Avatars\\avatars');
+        const searchPath = join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\avatars');
         try {
             if (!existsSync(searchPath)) {
                 const encryptedData = await EncriptData(
@@ -118,24 +117,6 @@ export default function InitProcess() {
             }
         } catch (error) {
             console.log("Failed To Create Config Models", error);
-        }
-    }
-
-    async function CreateResources(): Promise<void> {
-        try {
-            for (const Download of DownloadResourcesLink) {
-                const searchPath = join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Resources', Download.file);
-                if (!existsSync(searchPath)) {
-                    const archivoStream = createWriteStream(searchPath);
-                    DownloadFiles({
-                        DownloadUrl: Download.url,
-                        FileLocation: searchPath,
-                        FileStream: archivoStream
-                    });
-                }
-            }
-        } catch (error) {
-            console.log("Failed To Create Resources", error);
         }
     }
 
@@ -157,24 +138,6 @@ export default function InitProcess() {
         }
     } */
 
-    async function CreateAvatars(): Promise<void> {
-        try {
-            for (const Download of DownloadModels) {
-                const searchPath = join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Avatars', Download.model, Download.file);
-                if (!existsSync(searchPath)) {
-                    const archivoStream = createWriteStream(searchPath);
-                    await DownloadFiles({
-                        DownloadUrl: Download.url,
-                        FileLocation: searchPath,
-                        FileStream: archivoStream
-                    });
-                }
-            }
-        } catch (error) {
-            console.log("Failed To Create Avatars", error);
-        }
-    }
-
     async function __Init__() {
         try {
             await CreateConfigDirectories();
@@ -185,11 +148,8 @@ export default function InitProcess() {
             console.log("Execute CreateConfigBase");
             await CreateConfigModels();
             console.log("Execute CreateConfigModels");
-            await CreateResources();
-            console.log("Execute CreateResources");
             /* await CreateWallpapers();
             console.log("Execute CreateWallpapers"); */
-            await CreateAvatars();
             console.log("Execute Application");
             new Notification({
                 title: NOTIFICATION_TITLE,

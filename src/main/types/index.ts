@@ -21,7 +21,6 @@ export type TypeModelsConfigIndividual = {
 }
 
 export type TypeBaseConfig = {
-    Resources: string,
     /* Wallpapers: string, */
     Model: string,
     Avatars: string,

@@ -10,6 +10,7 @@ import API_Initializer from './api';
 import InitProcess from './init';
 import { existsSync } from 'fs';
 import { autoUpdater } from 'electron-updater';
+import { Routes } from './constants';
 
 // init's
 let reactDevToolsPath: string;
@@ -148,11 +149,19 @@ app.whenReady().then(async () => {
     ZoomFactorLevel = ZoomFactorLevel - 0.1
     mainWindow.webContents.setZoomFactor(ZoomFactorLevel)
   });
+  
   API_Initializer()
 
-  if (!existsSync(join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\bin'))) {
-    await InitProcess().__Init__()
-    app.quit();
+  const CheckDirectorys = Object.entries(Routes)
+  for (const directory of CheckDirectorys) {
+    console.log(directory[1]);
+
+    if (!existsSync(directory[1])) {
+      console.log("creando configuracion");
+      await InitProcess().__Init__()
+      app.quit();
+      break;
+    }
   }
 
   checkUpdates()
