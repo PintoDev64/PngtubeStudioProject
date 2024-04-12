@@ -1,10 +1,44 @@
 {
   "name": "pngtubestudio",
   "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
+  "description": "Dedicated app for vtuber streamers using the PNG format",
   "main": "./out/main/index.js",
-  "author": "example.com",
-  "homepage": "https://electron-vite.org",
+  "author": {
+    "email": "cardozojoan13@gmail.com",
+    "name": "PintoGamer64",
+    "url": "https://joancardozo.website/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PintoGamer64/PngtubeStudioProject.git"
+  },
+  "homepage": "https://github.com/PintoGamer64/PngtubeStudioProject",
+  "build": {
+    "appId": "com.pintogamer.pngtubestudio",
+    "productName": "PngtubeStudio",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "PintoGamer64",
+        "repo": "PngtubeStudioProject"
+      }
+    ],
+    "win": {
+      "icon": "resources/Ookami.ico",
+      "target": [
+        {
+          "target": "msi",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}-${version}-Setup-${arch}.${ext}"
+    }
+  },
+  "publisher": "PintoGamer64",
+  "os": ["win32"],
+  "arch": "x64",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
@@ -21,23 +55,10 @@
     "build:linux": "electron-vite build && electron-builder --linux",
     "release": "electron-builder -p always"
   },
-  "build": {
-    "appId": "com.pngtubestudio.app",
-    "productName": "PngtubeStudio",
-    "icon": "C:/Users/sebas/Documents/PngtubeStudio/resources/Ookami.ico",
-    "publish": [
-      {
-        "protocol": "https",
-        "provider": "github",
-        "owner": "PintoGamer64",
-        "publishAutoUpdate": true,
-        "timeout": 120000
-      }
-    ]
-  },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^3.0.0",
+    "electron-log": "^5.1.2",
     "electron-updater": "^6.1.8"
   },
   "devDependencies": {

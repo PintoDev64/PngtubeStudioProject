@@ -1,7 +1,7 @@
 import { AudioContext_Def, AvatarsContext } from "@renderer/context";
 import UpdateAvatarStyleClass from "@renderer/helpers/UpdateAvatarStyleClass";
 import useMicrophone from "@renderer/hooks/useMicrophone";
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 export default function ModelViewer() {
 

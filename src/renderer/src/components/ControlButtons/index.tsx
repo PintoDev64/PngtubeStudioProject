@@ -3,7 +3,6 @@ import { useContext } from 'react';
 // Context
 import { MemoryContext } from '@renderer/context';
 // Icons
-import EnterFullscreen from '@renderer/assets/icons/FullScreen';
 import Avatars from '@renderer/assets/icons/Avatars';
 
 export default function ControlButtons() {

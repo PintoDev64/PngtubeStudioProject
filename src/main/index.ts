@@ -1,6 +1,7 @@
 import { app, shell, BrowserWindow, ipcMain, session, Tray, Menu } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import { info, transports } from 'electron-log';
 import icon from '../../resources/Ookami.ico?asset'
 import { homedir } from 'os';
 
@@ -8,6 +9,7 @@ import { homedir } from 'os';
 import API_Initializer from './api';
 import InitProcess from './init';
 import { existsSync } from 'fs';
+import { autoUpdater } from 'electron-updater';
 
 // init's
 let reactDevToolsPath: string;
@@ -21,6 +23,9 @@ if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     'AppData/Local/Google/Chrome/User Data/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/5.0.2_0'
   )
 }
+
+transports.file.resolvePathFn = () => join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Logs\\dataUpdates.log');
+info(`Log Ready to work with version ${app.getVersion()}`);
 
 // MainWindow
 let mainWindow: BrowserWindow;
@@ -66,12 +71,43 @@ function createWindow(): void {
   }
 }
 
+// Function Updates 
+function checkUpdates() {
+  autoUpdater.checkForUpdatesAndNotify();
+  setInterval(() => {
+    autoUpdater.checkForUpdatesAndNotify();
+  }, 30000);
+}
+// Updates Events
+autoUpdater.on('update-available', () => {
+  info('Actualizacion Disponible')
+}); // -----------------------------------------
+autoUpdater.on('checking-for-update', () => {
+  info('Buscando Actualizaciones...')
+}); // -----------------------------------------
+autoUpdater.on('update-downloaded', () => {
+  info('Actualizacion Descargada')
+}); // -----------------------------------------
+autoUpdater.on('download-progress', (progress) => {
+  info(`[ Descargando... ${Math.trunc(progress.percent)}% ]`)
+}); // -----------------------------------------
+autoUpdater.on('update-not-available', () => {
+  info('Tienes La Ultima Version Disponible ✅')
+}); // -----------------------------------------
+autoUpdater.on('error', () => {
+  info('Error En Actualizar La App ❌')
+}) // -----------------------------------------
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
 
-  await session.defaultSession.loadExtension(reactDevToolsPath)
+  createWindow()
+
+  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+    await session.defaultSession.loadExtension(reactDevToolsPath)
+  }
 
   tray = new Tray(icon)
   const contextMenu = Menu.buildFromTemplate([
@@ -84,7 +120,7 @@ app.whenReady().then(async () => {
   tray.setContextMenu(contextMenu)
 
   // Set app user model id for windows
-  electronApp.setAppUserModelId('com.pngtubestudio.app')
+  electronApp.setAppUserModelId('com.pintogamer.pngtubestudio')
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
@@ -117,9 +153,9 @@ app.whenReady().then(async () => {
   if (!existsSync(join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\bin'))) {
     await InitProcess().__Init__()
     app.quit();
-  } else {
-    createWindow()
   }
+
+  checkUpdates()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

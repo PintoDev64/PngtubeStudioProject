@@ -8,9 +8,6 @@ import AudioProvider from './context/audio'
 import MemoryProvider from './context/memory'
 import SettingsProvider from './context/settings'
 import AvatarsProvider from './context/avatars'
-import Creator from './Creator'
-
-const { Checker } = window.api.App
 
 createRoot(document.getElementById('root') as HTMLElement).render(
     <StrictMode>

@@ -3,6 +3,7 @@ import { join } from "path"
 
 export const pathsConfig = [
     join(homedir(), 'AppData\\Roaming\\PNGtubeSettings'),
+    join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Logs'),
     join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Avatars'),
     join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Resources'),
     /* join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Wallpapers'), */
