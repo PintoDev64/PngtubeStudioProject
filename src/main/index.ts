@@ -74,10 +74,10 @@ function createWindow(): void {
 
 // Function Updates 
 function checkUpdates() {
-  autoUpdater.checkForUpdatesAndNotify();
-  setInterval(() => {
-    autoUpdater.checkForUpdatesAndNotify();
-  }, 30000);
+  autoUpdater.checkForUpdatesAndNotify({
+    title: `New PngtubeStudio Version: ${app.getVersion()}`,
+    body: "La actualizacion ha sido descargada y se instalara cuando cierre el programa (puede tardar un momento)"
+  });
 }
 // Updates Events
 autoUpdater.on('update-available', () => {

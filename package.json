@@ -9,24 +9,20 @@
     "url": "https://joancardozo.website/"
   },
   "repository": {
-    "type": "git",
-    "url": "https://github.com/PintoGamer64/PngtubeStudioProject.git"
+    "url": "https://github.com/PintoGamer64/PngtubeStudioProject"
   },
   "homepage": "https://github.com/PintoGamer64/PngtubeStudioProject",
   "build": {
     "appId": "com.pintogamer.pngtubestudio",
     "productName": "PngtubeStudio",
+    "icon": "resources/Ookami.ico",
     "publish": [
       {
         "provider": "github",
         "owner": "PintoGamer64",
         "repo": "PngtubeStudioProject"
       }
-    ],
-    "win": {
-      "icon": "resources/Ookami.ico",
-      "artifactName": "${productName}-${version}-Setup-${arch}.${ext}"
-    }
+    ]
   },
   "publisher": "PintoGamer64",
   "os": ["win32"],
