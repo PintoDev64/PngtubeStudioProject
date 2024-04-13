@@ -18,7 +18,8 @@ const api = {
     Receiver: () => ipcRenderer.sendSync("ModelsReceiver")
   },
   App: {
-    Checker: () => ipcRenderer.send("SettingsChecker")
+    Checker: () => ipcRenderer.send("SettingsChecker"),
+    AppDetails: () => ipcRenderer.sendSync("AppDetails")
   }
 }
 

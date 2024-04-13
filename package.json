@@ -1,6 +1,6 @@
 {
   "name": "pngtubestudio",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Dedicated app for vtuber streamers using the PNG format",
   "main": "./out/main/index.js",
   "author": {
@@ -25,14 +25,6 @@
     ],
     "win": {
       "icon": "resources/Ookami.ico",
-      "target": [
-        {
-          "target": "msi",
-          "arch": [
-            "x64"
-          ]
-        }
-      ],
       "artifactName": "${productName}-${version}-Setup-${arch}.${ext}"
     }
   },
@@ -51,9 +43,7 @@
     "postinstall": "electron-builder install-app-deps",
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
-    "build:mac": "electron-vite build && electron-builder --mac",
-    "build:linux": "electron-vite build && electron-builder --linux",
-    "release": "electron-builder -p always"
+    "release": "npm run build && electron-builder -p always"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",

@@ -21,7 +21,7 @@ export default function useMicrophone() {
         const source = audioContextRef.current.createMediaStreamSource(stream);
         source.connect(analyserRef.current);
       });
-  }, [AudioState.FftSize, AudioState.NoiseSupression]);
+  }, [AudioState.FftSize, AudioState.NoiseSupression, AudioState.EchoCancellation]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -34,7 +34,7 @@ export default function useMicrophone() {
       setVolume(values / length);
     }, 8);
     return () => clearInterval(interval);
-  }, []);
+  }, [AudioState.FftSize, AudioState.NoiseSupression, AudioState.EchoCancellation]);
 
   return Volume;
 };

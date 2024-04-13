@@ -1,6 +1,6 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
 import { TypeModelConfigBase } from '@renderer/types'
-import { TypeModelsConfig } from '@renderer/types/context'
+import { AppDetails, TypeModelsConfig } from '@renderer/types/context'
 
 declare global {
   interface Window {
@@ -21,7 +21,8 @@ declare global {
         Receiver: () => TypeModelConfigBase
       }
       App: {
-        Checker: () => boolean
+        Checker: () => boolean,
+        AppDetails: () => AppDetails
       }
     }
   }

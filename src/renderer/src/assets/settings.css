@@ -37,7 +37,8 @@
     display: grid;
     grid-template:
         "image" 120px
-        "content";
+        "content"
+        "Data" 40px;
 }
 
 #SettingsList-Content-Image {
@@ -55,6 +56,29 @@
     grid-area: content;
 }
 
+#Settings-Info {
+    display: flex;
+    border-top: 4px solid #ffffff;
+    grid-area: Data;
+    align-items: center;
+    justify-content: center;
+}
+
+#Settings-Info p {
+    display: block;
+    height: 17px;
+}
+
+#Settings-Info svg,
+#Settings-Info a {
+    width: 19.2px;
+    height: 19.2px;
+}
+
+#Settings-Info a {
+    margin: 0 5px 0 0;
+}
+
 #SettingsView {
     grid-area: viewer;
     padding: 0 28px 8px 20px;
@@ -70,10 +94,9 @@
     height: 50px;
     display: flex;
     grid-area: tool;
-    padding: 0 2px;
     align-items: center;
-    justify-content: space-between;
-    border-bottom: 3px solid #00000030;
+    padding: 10px 0 0;
+    justify-content: flex-end;
 }
 
 #SettingsView-Tool-CloseButton {
@@ -103,7 +126,7 @@
     box-sizing: border-box;
     grid-area: content;
     height: 100%;
-    padding: 10px 0 0 0;
+    padding: 0;
 }
 
 #SettingsList-Content-Scroll-Capsule {

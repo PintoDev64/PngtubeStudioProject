@@ -4,8 +4,11 @@ import { useContext, useReducer } from 'react';
 import { MemoryContext, SettingsContext} from "..";
 import { Contextinterface } from '@renderer/types';
 import { DefaultValuesMemory, typeMemoryReducerSettings } from '@renderer/types/context';
+import { AppAPI } from '@renderer/utils';
 
 export default function MemoryProvider({ children }: Contextinterface) {
+
+    const { AppDetails } = AppAPI()
 
     const { SettingsState } = useContext(SettingsContext);
 
@@ -14,6 +17,7 @@ export default function MemoryProvider({ children }: Contextinterface) {
         Settings: false,
         SettingRouter: 'Appareance',
         AvatarsShowcase: false,
+        AppDetails: AppDetails(),
         SettingsPreload: SettingsState
     }
 

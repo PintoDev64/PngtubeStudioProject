@@ -21,6 +21,12 @@ export function AvatarsAPI() {
         Receiver
     }
 }
+export function AppAPI() {
+    const { AppDetails } = window.api.App;
+    return {
+        AppDetails
+    }
+}
 
 export const ResolveRouteLeft = (stringParam: string) => {
     let newData = "";

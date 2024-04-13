@@ -26,11 +26,15 @@ export interface typeMemoryReducerSettings {
     action: "Fullscreen" | "Settings" | "SettingRouter" | "AvatarsShowcase" | "SettingsPreload",
     value: boolean | string | TypeBaseConfig
 }
+export type AppDetails = {
+    AppVersion: string
+}
 export type DefaultValuesMemory = {
     Fullscreen: boolean,
     Settings: boolean,
     SettingRouter: "Appareance" | "Advanced" | "Audio",
     AvatarsShowcase: boolean,
+    AppDetails: AppDetails
     SettingsPreload: TypeBaseConfig
 }
 export interface MemoryContextProps {

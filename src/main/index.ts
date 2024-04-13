@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain, session, Tray, Menu } from 'electro
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { info, transports } from 'electron-log';
-import icon from '../../resources/Ookami.ico?asset'
+import icon from '../../resources/Ookami.png?asset'
 import { homedir } from 'os';
 
 // Imports

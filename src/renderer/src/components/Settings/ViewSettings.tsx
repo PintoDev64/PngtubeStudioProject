@@ -34,7 +34,6 @@ export default function ViewSettings() {
     return (
         <article id="SettingsView">
             <section id="SettingsView-Tool">
-                <h2 id="SettingsView-Tool-Title">{MemoryState.SettingRouter}</h2>
                 <button id="SettingsView-Tool-CloseButton" onClick={() => {
                     ModifyState({
                         action: 'Settings',
