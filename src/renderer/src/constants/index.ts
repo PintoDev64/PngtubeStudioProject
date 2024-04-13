@@ -192,15 +192,15 @@ export default function Contants() {
                 value: "Audio"
             })
         },
-        /* {
+        {
             Id: 2,
-            Text: "Advanced",
+            Text: "🔨 Avanzado",
             ChangeCondition: MemoryState.SettingRouter === "Advanced",
             Execution: () => ModifyMemory({
                 action: 'SettingRouter',
                 value: "Advanced"
             })
-        } */
+        }
     ]
 
     return {
