@@ -34,6 +34,7 @@ export default function InitProcess() {
             EchoCancellation: true,
             trayMenu: true,
             Custom: {
+                audioLevel: true,
                 type: 'Color', // Color | Image
                 colorBackground: '#00ff00', // Hex
                 /* wallpaper: 'Default',  */// Wallpaper File Name

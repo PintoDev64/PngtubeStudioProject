@@ -12,6 +12,7 @@ export type TypeBaseConfig = {
         EchoCancellation: boolean,
         trayMenu: boolean,
         Custom: {
+            audioLevel: boolean,
             type: 'Color' | 'Image',
             colorBackground: `#${string}`,
             /* wallpaper: string, */

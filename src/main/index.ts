@@ -11,6 +11,8 @@ import InitProcess from './init';
 import { existsSync } from 'fs';
 import { autoUpdater } from 'electron-updater';
 import { Routes } from './constants';
+import { ReadFileBynari } from './utils';
+import { TypeBaseConfig } from './types';
 
 // init's
 let reactDevToolsPath: string;
@@ -25,7 +27,15 @@ if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
   )
 }
 
-transports.file.resolvePathFn = () => join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Logs\\dataUpdates.log');
+if (existsSync(Routes.Settings)) {
+  ReadFileBynari(Routes.Settings, (response: TypeBaseConfig) => {
+    if (!response.Config.hardwareAcceleration) {
+      app.disableHardwareAcceleration()
+    }
+  })
+}
+
+transports.file.resolvePathFn = () => join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Logs\\updates.log');
 info(`Log Ready to work with version ${app.getVersion()}`);
 
 // MainWindow

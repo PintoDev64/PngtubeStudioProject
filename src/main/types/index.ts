@@ -31,6 +31,7 @@ export type TypeBaseConfig = {
         NoiseSupression: boolean,
         EchoCancellation: boolean,
         Custom: {
+            audioLevel: boolean,
             type: 'Color' | 'Image',
             colorBackground: `#${string}`,
             /* wallpaper: string, */

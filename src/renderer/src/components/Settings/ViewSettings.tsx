@@ -14,7 +14,7 @@ export default function ViewSettings() {
 
     const { MemoryState, ModifyState } = useContext(MemoryContext);
 
-    const { SettingsRoutes, VoiceRoutes } = Contants();
+    const { SettingsRoutes, VoiceRoutes, AdvancedRoutes } = Contants();
     const { Compare, Discard, Save, SaveResponce } = useSettings()
 
     function DrawInterface() {
@@ -25,7 +25,7 @@ export default function ViewSettings() {
             return <ComponentsPropagator Data={VoiceRoutes} />
         }
         if (MemoryState.SettingRouter === 'Advanced') {
-            return <div></div>
+            return <ComponentsPropagator Data={AdvancedRoutes} />
         } else {
             return <div></div>
         }

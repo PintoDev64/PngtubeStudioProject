@@ -4,13 +4,14 @@ import useMicrophone from "@renderer/hooks/useMicrophone";
 // Icons
 import MicrophoneIconButton from "./Microphone-Icon";
 //Contexts
-import { AudioContext_Def } from "@renderer/context";
+import { AudioContext_Def, SettingsContext } from "@renderer/context";
 //Helpers
 import UpdateCanvasVolume from "@renderer/helpers/UpdateCanvasVolume";
 
 export default function Microphone() {
 
     const { AudioState, ModifyState } = useContext(AudioContext_Def);
+    const { SettingsState } = useContext(SettingsContext);
 
     const [HoverInfo, setHoverInfo] = useState({
         Sensibility: false,
@@ -32,7 +33,9 @@ export default function Microphone() {
     }, [Volume]);
 
     return (
-        <div id="FooBar-Microphone">
+        <div id="FooBar-Microphone" style={{
+            width: SettingsState.Config.Custom.audioLevel ? 350 : 300
+        }}>
             <div style={{
                 display: HoverInfo.Sensibility ? 'flex' : 'none'
             }} className="FooBar-Microphone-Target">
@@ -43,7 +46,9 @@ export default function Microphone() {
             }} className="FooBar-Microphone-Target">
                 <p className="FooBar-Microphone-Target-Elementor">Amplificador: {AudioState.Amplifier}</p>
             </div>
-            <p id="FooBar-Microphone-Counter">{Audio}</p>
+            <p id="FooBar-Microphone-Counter" style={{
+                display: SettingsState.Config.Custom.audioLevel ? "block" : "none"
+            }}>{Audio}</p>
             <div id="FooBar-Microphone-Controls">
                 <div id="FooBar-Microphone-Amplifier">
                     <input type="range" id="FooBar-Microphone-Amplifier-Slider" value={AudioState.Amplifier} min={0} max={200}

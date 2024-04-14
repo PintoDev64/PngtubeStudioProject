@@ -61,6 +61,19 @@ export default function Contants() {
         });
     }
 
+    function ChangeAudioLevel() {
+        ModifySettings({
+            action: 'Config',
+            value: {
+                ...SettingsState.Config,
+                Custom: {
+                    ...SettingsState.Config.Custom,
+                    audioLevel: !SettingsState.Config.Custom.audioLevel
+                }
+            }
+        })
+    }
+
     function ChangeFftsize(value: string) {
         ModifySettings({
             action: 'Config',
@@ -112,22 +125,35 @@ export default function Contants() {
         })
     }
 
+    function ChangeHardwareAcceleration() {
+        ModifySettings({
+            action: 'Config',
+            value: {
+                ...SettingsState.Config,
+                hardwareAcceleration: !SettingsState.Config.hardwareAcceleration,
+                Custom: {
+                    ...SettingsState.Config.Custom
+                }
+            }
+        })
+    }
+
     // Miscelaneo
 
     const VoiceFftsizes: number[] = [32, 64, 128, 256, 512, 1024, 2048, 4096]
 
     // Config
     const SettingsRoutes: PropagtorStructureComponents[] = [
-        /* {
+        {
             Id: 1,
             Component: Checkbox,
-            Execute: CustomBackground,
-            ChangeCondition: SettingsState.Config.Custom.type === 'Color',
+            Execute: ChangeAudioLevel,
+            ChangeCondition: !SettingsState.Config.Custom.audioLevel,
             Complement: {
-                Text: "Color / Imagen",
-                Definition: "Escoge entre una imagen o un color de fondo",
+                Text: "Nivel de audio",
+                Definition: "Muestra el valor exacto del volumen del microfono",
             }
-        }, */
+        },
         {
             Id: 0,
             Component: Color,
@@ -147,7 +173,7 @@ export default function Contants() {
             Complement: {
                 Text: "Tamaño de Buffer",
                 Definition: "Calidad de captura de audio (puede afectar al rendimiento)",
-                value: `${AudioState.FftSize}`
+                value: `${SettingsState.Config.AudioFftsize}`
             },
             Execute: ChangeFftsize
         },
@@ -169,6 +195,19 @@ export default function Contants() {
             Complement: {
                 Text: "Cancelacion de Eco",
                 Definition: ""
+            }
+        }
+    ]
+
+    const AdvancedRoutes: PropagtorStructureComponents[] = [
+        {
+            Id: 0,
+            Component: Checkbox,
+            Execute: ChangeHardwareAcceleration,
+            ChangeCondition: SettingsState.Config.hardwareAcceleration === false,
+            Complement: {
+                Text: "Aceleracion por Hardware",
+                Definition: "Utiliza tu GPU para una experiencia más fluida (puede afectar al rendimiento)"
             }
         }
     ]
@@ -207,6 +246,7 @@ export default function Contants() {
         SettingsListDetails,
         SettingsRoutes,
         VoiceRoutes,
+        AdvancedRoutes,
         consts: {
             VoiceFftsizes
         }

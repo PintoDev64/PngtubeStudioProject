@@ -1,6 +1,6 @@
 import { app, ipcMain } from "electron";
 import { TypeBaseConfig } from "../types";
-import { ReadFileBynari, WriteFileBynari } from "./utils";
+import { ReadFileBynari, WriteFileBynari } from "../utils";
 import { existsSync } from "node:fs";
 import { Routes } from "../constants";
 
@@ -23,6 +23,7 @@ export default function API_Initializer() {
         )
     })
     ipcMain.on("SettingsSender", (_event, { _data }: { _data: TypeBaseConfig }) => {
+        console.log(_data);
         WriteFileBynari(
             Routes.Settings,
             _data,
