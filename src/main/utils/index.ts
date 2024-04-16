@@ -4,6 +4,7 @@ import { get } from "node:https";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { createCipheriv, createDecipheriv } from "node:crypto";
+import { Routes } from "../constants";
 
 export function DownloadFiles({
     DownloadUrl,
@@ -31,23 +32,23 @@ export function DownloadFiles({
 
 export const ReadPasswords: Promise<{ key: Buffer, iv: Buffer }> = new Promise((resolve, reject) => {
     existsSync(join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\bin')) && (() => {
-            const searchPath = join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\bin')
-            const JSONvalue: string = readFileSync(
-                searchPath,
-                {
-                    encoding: 'utf-8'
-                }
-            )
+        const searchPath = join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\bin')
+        const JSONvalue: string = readFileSync(
+            searchPath,
+            {
+                encoding: 'utf-8'
+            }
+        )
 
-            const result = JSON.parse(JSONvalue);
+        const result = JSON.parse(JSONvalue);
 
-            resolve({
-                key: Buffer.from(result.key, 'hex'),
-                iv: Buffer.from(result.iv, 'hex'),
-            })
+        resolve({
+            key: Buffer.from(result.key, 'hex'),
+            iv: Buffer.from(result.iv, 'hex'),
+        })
 
-            reject("no reasean available")
-        })()
+        reject("no reasean available")
+    })()
 })
 
 export async function EncriptData(key: Buffer, iv: Buffer, data: string) {
@@ -105,7 +106,7 @@ export function ReadFileBynari(path: string, callback: (responce: any) => void) 
         .catch(() => console.log("Failed to get Settings"))
 }
 
-export function WriteFileBynari(path: string, _data: any, callback: (responce: boolean) => void) {
+export function WriteFileBynari(path: string, _data: any, callback: (responce: boolean, data?: any) => void) {
     ReadPasswords
         .then(async ({ iv, key }) => {
             const response = await EncriptData(key, iv, JSON.stringify(_data))
@@ -115,8 +116,15 @@ export function WriteFileBynari(path: string, _data: any, callback: (responce: b
                     path,
                     response,
                     (err) => {
-                        if (err) callback(false)
-                        else callback(true)
+                        if (err) {
+                            callback(false)
+                        } else {
+                            ReadFileBynari(
+                                path,
+                                (response) => callback(true, response)
+                            )
+
+                        }
                     }
                 )
             }

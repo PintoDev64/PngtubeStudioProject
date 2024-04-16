@@ -1,9 +1,9 @@
-import { AudioContext_Def } from '@renderer/context';
+import { SettingsContext } from '@renderer/context';
 import { useEffect, useRef, useState, useContext } from 'react';
 
 export default function useMicrophone() {
 
-  const { AudioState } = useContext(AudioContext_Def);
+  const { SettingsState } = useContext(SettingsContext);
 
   const audioContextRef = useRef<AudioContext>(null!);
   const analyserRef = useRef<AnalyserNode>(null!);
@@ -14,14 +14,14 @@ export default function useMicrophone() {
   useEffect(() => {
     audioContextRef.current = new window.AudioContext();
     analyserRef.current = audioContextRef.current.createAnalyser();
-    analyserRef.current.fftSize = AudioState.FftSize;
+    analyserRef.current.fftSize = SettingsState.Config.AudioFftsize;
     dataArrRef.current = new Uint8Array(analyserRef.current.frequencyBinCount);
-    navigator.mediaDevices.getUserMedia({ audio: { autoGainControl: false, noiseSuppression: AudioState.NoiseSupression, echoCancellation: AudioState.EchoCancellation } })
+    navigator.mediaDevices.getUserMedia({ audio: { autoGainControl: false, noiseSuppression: SettingsState.Config.NoiseSupression, echoCancellation: SettingsState.Config.EchoCancellation } })
       .then(stream => {
         const source = audioContextRef.current.createMediaStreamSource(stream);
         source.connect(analyserRef.current);
       });
-  }, [AudioState.FftSize, AudioState.NoiseSupression, AudioState.EchoCancellation]);
+  }, [SettingsState.Config.AudioFftsize, SettingsState.Config.NoiseSupression, SettingsState.Config.EchoCancellation]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -34,7 +34,7 @@ export default function useMicrophone() {
       setVolume(values / length);
     }, 8);
     return () => clearInterval(interval);
-  }, [AudioState.FftSize, AudioState.NoiseSupression, AudioState.EchoCancellation]);
+  }, [SettingsState.Config.AudioFftsize, SettingsState.Config.NoiseSupression, SettingsState.Config.EchoCancellation]);
 
   return Volume;
 };

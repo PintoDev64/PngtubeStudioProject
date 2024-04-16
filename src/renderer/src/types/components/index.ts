@@ -5,10 +5,15 @@ export type PropagtorStructureList = {
     Execution: () => void
 }[]
 
+type temporal = {
+    Main: (args?: any) => void
+    Secundary: (args?: any) => void
+}
+
 export type PropagtorStructureComponents = {
     Id: number,
     Component: JSX.ElementType,
-    Execute: (args?: any) => void,
+    Execute: ((args?: any) => void) | temporal
     ChangeCondition?: boolean,
     Complement: TypeComplement
 }
@@ -27,7 +32,7 @@ export type TypeComplement = {
     Definition: string,
     value?: string,
     Accept?: "Non-Drag" | "Drag",
-    Actions?: "Delete" | "Select" | "Multi-Delete",
+    Actions?: "Delete" | "Select" | "Multi-Delete" | "Upload",
     Elements?: {
         IdElement: number,
         TextElement: string,
@@ -41,14 +46,19 @@ export type CheckboxType = {
     Complement: TypeComplement
     ChangeCondition?: boolean
 }
-
 export type SelectType = {
     Execute: (value: string) => void,
     Complement: TypeComplement
 }
-
 export type ColorType = {
     Execute: (args?: any) => void,
     Complement: TypeComplement
     value: string
+}
+export type ListType = {
+    Execute: {
+        Main: (value: any) => void,
+        Secundary: (value: any) => void
+    },
+    Complement: TypeComplement
 }

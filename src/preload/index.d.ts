@@ -1,6 +1,6 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
 import { TypeModelConfigBase } from '@renderer/types'
-import { AppDetails, TypeModelsConfig } from '@renderer/types/context'
+import { AppDetails, TypeModelsConfig, TypeWallpaperConfig } from '@renderer/types/context'
 
 declare global {
   interface Window {
@@ -20,6 +20,11 @@ declare global {
       Models: {
         Receiver: () => TypeModelConfigBase
       }
+      Wallpapers: {
+        Receiver: () => TypeWallpaperConfig
+        Send: (newWallpaper: TypeWallpaperConfig) => TypeWallpaperConfig
+        Deleter: (wallpaperIndex: number) => TypeWallpaperConfig
+      },
       App: {
         Checker: () => boolean,
         AppDetails: () => AppDetails

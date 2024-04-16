@@ -2,19 +2,18 @@
 import { useContext } from 'react';
 
 // Contexts
-import { SettingsContext } from "../context";
-
-// Utils
-import { ResolveRouteRight } from "../utils";
+import { MemoryContext, SettingsContext } from "../context";
 
 export default function useBackgroundStyle() {
 
-    let Route: string = "example"
+    const { MemoryState } = useContext(MemoryContext);
 
     const { SettingsState } = useContext(SettingsContext);
 
-    const responceURLWallpaper = ResolveRouteRight(Route);
-    
+    const responceURLWallpaper = MemoryState.Wallpapers.find(({ Name }) => {
+        return Name === SettingsState.Config.Custom.wallpaper
+    });
+
     let responceStyle;
     if (SettingsState.Config.Custom.type === 'Color') {
         responceStyle = {
@@ -22,7 +21,7 @@ export default function useBackgroundStyle() {
         }
     } else {
         responceStyle = {
-            backgroundImage: `url("${responceURLWallpaper}")`,
+            backgroundImage: `url("${responceURLWallpaper?.Source}")`,
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center center',
             backgroundAttachment: 'fixed',

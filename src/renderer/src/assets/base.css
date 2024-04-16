@@ -19,6 +19,7 @@
 }
 
 * {
+    user-select: none;
     margin: 0;
     font-family: sans-serif;
 }
@@ -69,13 +70,19 @@ body {
     justify-content: flex-end;
 }
 
+.PngtubeStudio_HeaderButtons_Elements {
+    transition: all .2s ease-in-out;
+}
+
 .PngtubeStudio_HeaderButtons_Elements:hover {
     background-color: var(--ButtonSelected);
-    transition: all .1s ease-in-out;
+}
+
+#FullScreenButton svg {
+    transition: all .1s ease;
 }
 
 #FullScreenButton:hover svg {
-    transition: all .2s ease-in-out;
     transform: scale(0.85);
     /* animation: ease-in-out .5s FullScreenAnimation; */
 }
@@ -94,31 +101,36 @@ body {
     }
 }
 
+#SettingsButton svg {
+    transition: all 1s ease;
+}
+
 #SettingsButton:hover svg {
     transform: rotate(360deg);
-    transition: all 1s ease-in-out;
 }
 
 #ZoomMinusButton svg {
     transform: scale(1.5);
+    transition: all .2s ease;
 }
+
 #ZoomPlusButton svg {
     transform: scale(1.5) rotate(45deg);
+    transition: all .2s ease;
 }
 
 #ZoomMinusButton:hover svg {
     transform: scale(1.1);
-    transition: all .2s ease-in-out;
 }
+
 #ZoomPlusButton:hover svg {
     transform: scale(1.1) rotate(45deg);
-    transition: all .2s ease-in-out;
 }
 
 #Minimize,
 #MaxMin,
 #Close {
-    transition: all .1s ease-in-out;
+    transition: all .2s ease;
 }
 
 #Minimize:hover {

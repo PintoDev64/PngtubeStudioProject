@@ -4,13 +4,10 @@ import { TypeBaseConfig } from ".."
 export type TypeAudioConfig = {
     State: boolean,
     Amplifier: number,
-    Sensibility: number,
-    NoiseSupression: boolean,
-    EchoCancellation: boolean,
-    FftSize: 32 | 64 | 128 | 256 | 512 | 1024 | 2048 | 4096
+    Sensibility: number
 }
 export interface TypeAudioReducerSettings {
-    action: "FftSize" | "Amplifier" | "NoiseSupression" | "EchoCancellation" | "Sensibility" | "State",
+    action: "Amplifier" | "Sensibility" | "State",
     value: boolean | number
 }
 export type TypeModifyAudioState = ({ action, value }: TypeAudioReducerSettings) => void
@@ -23,8 +20,8 @@ export interface AudioContextProps {
 // ------------ Memory Context
 export type TypeModifyMemoryState = ({ action, value }: typeMemoryReducerSettings) => void
 export interface typeMemoryReducerSettings {
-    action: "Fullscreen" | "Settings" | "SettingRouter" | "AvatarsShowcase" | "SettingsPreload",
-    value: boolean | string | TypeBaseConfig
+    action: "Fullscreen" | "Settings" | "SettingRouter" | "AvatarsShowcase" | "SettingsPreload" | "Wallpapers",
+    value: boolean | string | TypeBaseConfig | TypeWallpaperConfig
 }
 export type AppDetails = {
     AppVersion: string
@@ -34,8 +31,9 @@ export type DefaultValuesMemory = {
     Settings: boolean,
     SettingRouter: "Appareance" | "Advanced" | "Audio",
     AvatarsShowcase: boolean,
-    AppDetails: AppDetails
-    SettingsPreload: TypeBaseConfig
+    AppDetails: AppDetails,
+    SettingsPreload: TypeBaseConfig,
+    Wallpapers: TypeWallpaperConfig
 }
 export interface MemoryContextProps {
     MemoryState: DefaultValuesMemory,
@@ -68,8 +66,12 @@ export interface AvatarsContextProps {
     AvatarsState: TypeModelsConfig,
     ModifyState: TypeModifyModelState
 }
-
-
+// ------------ Wallpapers Context
+export type TypeWallpaperConfig = {
+    Type: "Default" | "Custom",
+    Name: string,
+    Source: string
+}[]
 // ------------ Settings Context
 export type TypeModifySettingsState = ({ action, value }: TypeSettingsReducerSettings) => void
 export type TypeModifyAllState = (value: TypeBaseConfig) => void

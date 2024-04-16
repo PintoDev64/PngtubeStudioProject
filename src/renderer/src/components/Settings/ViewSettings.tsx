@@ -45,7 +45,8 @@ export default function ViewSettings() {
             </section>
             <section id="SettingsView-Content">
                 <DrawInterface />
-                <footer id="SettingsView-Content-Confirm" style={
+            </section>
+            <footer id="SettingsView-Content-Confirm" style={
                     Compare()
                         ? {
                             display: 'none'
@@ -64,7 +65,6 @@ export default function ViewSettings() {
                         </button>
                     </div>
                 </footer>
-            </section>
         </article>
     )
 }

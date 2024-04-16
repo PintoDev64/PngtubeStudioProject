@@ -25,7 +25,7 @@ export type TypeBaseConfig = {
     Model: string,
     Avatars: string,
     Config: {
-        AudioFftsize:  32 | 64 | 128 | 256 | 512 | 1024 | 2048 | 4096,
+        AudioFftsize: 32 | 64 | 128 | 256 | 512 | 1024 | 2048 | 4096,
         hardwareAcceleration: boolean,
         trayMenu: boolean,
         NoiseSupression: boolean,
@@ -34,10 +34,16 @@ export type TypeBaseConfig = {
             audioLevel: boolean,
             type: 'Color' | 'Image',
             colorBackground: `#${string}`,
-            /* wallpaper: string, */
+            wallpaper: string,
             brightness: number
         }
     }
 }
+
+export type TypeWallpaperConfig = {
+    Type: "Default" | "Custom",
+    Name: string,
+    Source: string
+}[]
 
 export type TypeModelsConfig = TypeModelsConfigIndividual[]

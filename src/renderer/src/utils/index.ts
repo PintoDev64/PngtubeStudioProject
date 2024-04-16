@@ -21,6 +21,14 @@ export function AvatarsAPI() {
         Receiver
     }
 }
+export function WallpapersAPI() {
+    const { Receiver, Send, Deleter } = window.api.Wallpapers;
+    return {
+        Receiver,
+        Send,
+        Deleter
+    }
+}
 export function AppAPI() {
     const { AppDetails } = window.api.App;
     return {

@@ -1,5 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { TypeWallpaperConfig } from '../main/types'
 
 // Custom APIs for renderer
 const api = {
@@ -16,6 +17,11 @@ const api = {
   },
   Models: {
     Receiver: () => ipcRenderer.sendSync("ModelsReceiver")
+  },
+  Wallpapers: {
+    Receiver: () => ipcRenderer.sendSync("WallpapersReceiver"),
+    Send: (newWallpaper: TypeWallpaperConfig) => ipcRenderer.sendSync("WallpapersSender", { newWallpaper }),
+    Deleter: (wallpaperIndex: number) => ipcRenderer.sendSync("WallpapersDeleter", { wallpaperIndex })
   },
   App: {
     Checker: () => ipcRenderer.send("SettingsChecker"),

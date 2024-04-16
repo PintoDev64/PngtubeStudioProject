@@ -55,6 +55,7 @@ function createWindow(): void {
     titleBarStyle: "hidden",
     center: true,
     webPreferences: {
+      zoomFactor: ZoomFactorLevel,
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
     }

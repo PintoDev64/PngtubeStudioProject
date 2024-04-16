@@ -8,45 +8,72 @@ import { PropagtorStructureComponents, PropagtorStructureList } from "../types/c
  */
 /* export  */
 
-import { AudioContext_Def, MemoryContext, SettingsContext } from "../context"
+import { MemoryContext, SettingsContext } from "../context"
 /* import Checkbox from '../components/packages/Checkbox'; */
 import Color from '../components/packages/Color';
 import Select from '../components/packages/Select';
 import Checkbox from '@renderer/components/packages/Checkbox';
+import ListComponent from '@renderer/components/packages/List';
+import { WallpapersAPI } from '@renderer/utils';
+import useSaveSettings from '@renderer/hooks/useSaveSettings';
 
 export default function Contants() {
+
+    const { Save } = useSaveSettings()
+
+    const { Deleter } = WallpapersAPI();
+
     const { MemoryState, ModifyState: ModifyMemory } = useContext(MemoryContext)
 
     const { SettingsState, ModifyState: ModifySettings } = useContext(SettingsContext);
 
-    const { AudioState, ModifyState: ModifyAudio } = useContext(AudioContext_Def);
-
     // Functions
-    /* function CustomBackground() {
-        if (SettingsState.Config.Custom.type === "Color") {
+    function TypeBackground() {
+        ModifySettings({
+            action: 'Config',
+            value: {
+                ...SettingsState.Config,
+                Custom: {
+                    ...SettingsState.Config.Custom,
+                    type: SettingsState.Config.Custom.type === "Color" ? "Image" : "Color"
+                }
+            }
+        })
+    }
+
+    function CustomBackground(name: string) {
+        if (name !== SettingsState.Config.Custom.wallpaper) {
             ModifySettings({
                 action: 'Config',
                 value: {
                     ...SettingsState.Config,
                     Custom: {
                         ...SettingsState.Config.Custom,
-                        type: 'Image'
+                        wallpaper: name
                     }
                 }
             })
-        } else {
-            ModifySettings({
-                action: 'Config',
-                value: {
-                    ...SettingsState.Config,
-                    Custom: {
-                        ...SettingsState.Config.Custom,
-                        type: 'Color'
-                    }
-                }
-            })
+            console.log("CustomBackground", name);
         }
-    } */
+    }
+
+    function RemoveBackground(value: number) {
+        ModifyMemory({
+            action: 'Wallpapers',
+            value: Deleter(value)
+        })
+        ModifySettings({
+            action: 'Config',
+            value: {
+                ...SettingsState.Config,
+                Custom: {
+                    ...SettingsState.Config.Custom,
+                    wallpaper: MemoryState.Wallpapers[value - 1].Name
+                }
+            }
+        })
+        Save()
+    }
 
     function ColorSetter(color: string) {
         ModifySettings({
@@ -85,10 +112,6 @@ export default function Contants() {
                 }
             }
         });
-        ModifyAudio({
-            action: 'FftSize',
-            value: parseInt(value)
-        })
     }
 
     function ChangeNoiseSupression() {
@@ -102,10 +125,6 @@ export default function Contants() {
                 }
             }
         });
-        ModifyAudio({
-            action: 'NoiseSupression',
-            value: !SettingsState.Config.NoiseSupression
-        })
     }
 
     function ChangeEchoCancellation() {
@@ -119,10 +138,6 @@ export default function Contants() {
                 }
             }
         });
-        ModifyAudio({
-            action: 'EchoCancellation',
-            value: !SettingsState.Config.EchoCancellation
-        })
     }
 
     function ChangeHardwareAcceleration() {
@@ -145,7 +160,7 @@ export default function Contants() {
     // Config
     const SettingsRoutes: PropagtorStructureComponents[] = [
         {
-            Id: 1,
+            Id: 0,
             Component: Checkbox,
             Execute: ChangeAudioLevel,
             ChangeCondition: !SettingsState.Config.Custom.audioLevel,
@@ -155,13 +170,45 @@ export default function Contants() {
             }
         },
         {
-            Id: 0,
+            Id: 1,
+            Component: Checkbox,
+            Execute: TypeBackground,
+            ChangeCondition: SettingsState.Config.Custom.type === "Color",
+            Complement: {
+                Text: "Imagen de fondo",
+                Definition: "Escoge entre un color solido o una imagen de fondo",
+            }
+        },
+        {
+            Id: 2,
             Component: Color,
             Execute: ColorSetter,
             Complement: {
                 Text: "Color de Fondo",
                 Definition: "",
                 value: SettingsState.Config.Custom.colorBackground
+            }
+        },
+        {
+            Id: 3,
+            Component: ListComponent,
+            Execute: {
+                Main: CustomBackground,
+                Secundary: RemoveBackground
+            },
+            Complement: {
+                Accept: 'Drag',
+                Actions: 'Select',
+                Text: "Fondos",
+                Definition: "Se recomiendan imagenes de formato horizontal (16:9)",
+                Elements: MemoryState.Wallpapers.map(({ Name, Source, Type }, index) => {
+                    return {
+                        IdElement: index,
+                        ImageElement: Source,
+                        TextElement: Name,
+                        DefinitionElement: Type
+                    }
+                })
             }
         }
     ]
@@ -207,7 +254,7 @@ export default function Contants() {
             ChangeCondition: SettingsState.Config.hardwareAcceleration === false,
             Complement: {
                 Text: "Aceleracion por Hardware",
-                Definition: "Utiliza tu GPU para una experiencia más fluida (puede afectar al rendimiento)"
+                Definition: "Utiliza tu GPU para una experiencia más fluida, esta caracteristica requiere un reinicio (puede afectar al rendimiento)"
             }
         }
     ]

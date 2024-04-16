@@ -6,11 +6,11 @@ import { join } from "node:path";
 import icon from '../../resources/Ookami.ico?asset'
 
 // Types
-import { TypeBaseConfig, TypeModelsConfig } from "./types";
-import { pathsConfig } from "./constants";
-import { EncriptData, } from "./utils";
+import { TypeBaseConfig, TypeModelsConfig, TypeWallpaperConfig } from "./types";
+import { Routes, pathsConfig } from "./constants";
+import { EncriptData, ReadPasswords, } from "./utils";
 import { randomBytes } from "node:crypto";
-import { Ookami, Ookami2 } from "./assets";
+import { Ookami, Ookami2, DefaultBg } from "./assets";
 import { Notification } from "electron";
 
 export default function InitProcess() {
@@ -37,7 +37,7 @@ export default function InitProcess() {
                 audioLevel: true,
                 type: 'Color', // Color | Image
                 colorBackground: '#00ff00', // Hex
-                /* wallpaper: 'Default',  */// Wallpaper File Name
+                wallpaper: 'Base', // Wallpaper File Name
                 brightness: 100
             }
         }
@@ -57,6 +57,13 @@ export default function InitProcess() {
             URL: "https://github.com/PintoGamer64"
         }
     ];
+    const wallpaperConfig: TypeWallpaperConfig = [
+        {
+            Name: "Base",
+            Type: "Default",
+            Source: DefaultBg
+        }
+    ]
 
     async function CreateConfigDirectories(): Promise<void> {
         try {
@@ -73,9 +80,8 @@ export default function InitProcess() {
     // Create Passwords To Encript o Desencrypt Files
     async function GeneratePasswords(): Promise<void> {
         try {
-            const searchPath = join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\bin')
-            !existsSync(searchPath) && writeFileSync(
-                searchPath,
+            !existsSync(Routes.Bin) && writeFileSync(
+                Routes.Bin,
                 Buffer.from(
                     JSON.stringify(KeyValuesDecripters)
                 )
@@ -85,17 +91,16 @@ export default function InitProcess() {
         }
     }
 
-    async function CreateConfigBase(): Promise<void> {
-        const searchPath = join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\settings');
+    async function CreateConfigBase(iv: Buffer, key: Buffer): Promise<void> {
         try {
-            if (!existsSync(searchPath)) {
+            if (!existsSync(Routes.Settings)) {
                 const encryptedData = await EncriptData(
-                    KeyValuesDecripters.key,
-                    KeyValuesDecripters.iv,
+                    key,
+                    iv,
                     JSON.stringify(baseConfig, null, 4)
                 );
                 if (encryptedData) {
-                    writeFileSync(searchPath, encryptedData, { encoding: "utf-8" });
+                    writeFileSync(Routes.Settings, encryptedData, { encoding: "utf-8" });
                 }
             }
         } catch (error) {
@@ -103,17 +108,16 @@ export default function InitProcess() {
         }
     }
 
-    async function CreateConfigModels(): Promise<void> {
-        const searchPath = join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\avatars');
+    async function CreateConfigModels(iv: Buffer, key: Buffer): Promise<void> {
         try {
-            if (!existsSync(searchPath)) {
+            if (!existsSync(Routes.Avatars)) {
                 const encryptedData = await EncriptData(
-                    KeyValuesDecripters.key,
-                    KeyValuesDecripters.iv,
+                    key,
+                    iv,
                     JSON.stringify(modelsConfig, null, 4)
                 );
                 if (encryptedData) {
-                    writeFileSync(searchPath, encryptedData, { encoding: "utf-8" });
+                    writeFileSync(Routes.Avatars, encryptedData, { encoding: "utf-8" });
                 }
             }
         } catch (error) {
@@ -121,44 +125,65 @@ export default function InitProcess() {
         }
     }
 
-    /* async function CreateWallpapers(): Promise<void> {
+    async function CreateWallpapers(iv: Buffer, key: Buffer): Promise<void> {
         try {
-            for (const Download of DownloadWallpapersLink) {
-                const searchPath = join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\Wallpapers', Download.file);
-                if (!existsSync(searchPath)) {
-                    const archivoStream = createWriteStream(searchPath);
-                    DownloadFiles({
-                        DownloadUrl: Download.url,
-                        FileLocation: searchPath,
-                        FileStream: archivoStream
-                    });
+            if (!existsSync(Routes.Wallpapers)) {
+                const encryptedData = await EncriptData(
+                    key,
+                    iv,
+                    JSON.stringify(wallpaperConfig, null, 4)
+                );
+                if (encryptedData) {
+                    writeFileSync(Routes.Wallpapers, encryptedData, { encoding: "utf-8" });
                 }
             }
         } catch (error) {
-            console.log("Failed To Create Wallpapers", error);
+            console.log("Failed To Create Config Models", error);
         }
-    } */
+    }
 
     async function __Init__() {
-        try {
-            await CreateConfigDirectories();
-            console.log("Execute CreateConfigDirectories");
-            await GeneratePasswords();
-            console.log("Execute GeneratePasswords");
-            await CreateConfigBase();
-            console.log("Execute CreateConfigBase");
-            await CreateConfigModels();
-            console.log("Execute CreateConfigModels");
-            /* await CreateWallpapers();
-            console.log("Execute CreateWallpapers"); */
-            console.log("Execute Application");
-            new Notification({
-                title: NOTIFICATION_TITLE,
-                body: NOTIFICATION_BODY,
-                icon
-            }).show()
-        } catch (error) {
-            console.error("Error:", error);
+        if (!existsSync(Routes.Bin)) {
+            try {
+                await CreateConfigDirectories();
+                console.log("Execute CreateConfigDirectories");
+                await GeneratePasswords();
+                console.log("Execute GeneratePasswords");
+                await CreateConfigBase(KeyValuesDecripters.iv, KeyValuesDecripters.key);
+                console.log("Execute CreateConfigBase");
+                await CreateConfigModels(KeyValuesDecripters.iv, KeyValuesDecripters.key);
+                console.log("Execute CreateConfigModels");
+                await CreateWallpapers(KeyValuesDecripters.iv, KeyValuesDecripters.key);
+                console.log("Execute CreateWallpapers");
+                console.log("Execute Application");
+                new Notification({
+                    title: NOTIFICATION_TITLE,
+                    body: NOTIFICATION_BODY,
+                    icon
+                }).show()
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        } else {
+            try {
+                ReadPasswords
+                    .then(async ({ iv, key }) => {
+                        await CreateConfigBase(iv, key);
+                        console.log("Execute CreateConfigBase");
+                        await CreateConfigModels(iv, key);
+                        console.log("Execute CreateConfigModels");
+                        await CreateWallpapers(iv, key);
+                        console.log("Execute CreateWallpapers");
+                        console.log("Execute Application");
+                        new Notification({
+                            title: NOTIFICATION_TITLE,
+                            body: NOTIFICATION_BODY,
+                            icon
+                        }).show()
+                    })
+            } catch (error) {
+                console.error("Error:", error);
+            }
         }
     }
 

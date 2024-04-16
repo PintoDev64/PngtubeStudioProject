@@ -4,6 +4,8 @@
 
 This project seeks to be an alternative for PNGtubers, integrating tools more dedicated to said format, seeking to be a program based on community comments.
 
+### **Available on [itch.io](https://pintogamer64.itch.io/pngtubestudio)**
+
 *This project was bootstrapped with [NodeJs](https://nodejs.org), [ElectronJs](https://www.electronjs.org) and [ReactJs](https://react.dev)*
 *config by [Electron-Vite](https://electron-vite.org/)*
 

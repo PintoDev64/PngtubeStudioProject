@@ -2,7 +2,6 @@ import { ReactNode } from "react"
 
 export type TypeBaseConfig = {
     Resources: string,
-    /* Wallpapers: string, */
     Model: string,
     Avatars: string,
     Config: {
@@ -15,7 +14,7 @@ export type TypeBaseConfig = {
             audioLevel: boolean,
             type: 'Color' | 'Image',
             colorBackground: `#${string}`,
-            /* wallpaper: string, */
+            wallpaper: string,
             brightness: number
         }
     }

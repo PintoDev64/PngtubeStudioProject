@@ -21,7 +21,7 @@ export default function ListSettings() {
                     <SettingsListPropagator />
                 </div>
                 <div id="Settings-Info">
-                    <a href="https://github.com/PintoGamer64/PngtubeStudioProject/releases" target="_blank" rel="noopener noreferrer"><GithubIcon /></a><p><b>Version: {MemoryState.AppDetails.AppVersion}</b></p>
+                    <a href="https://github.com/PintoGamer64/PngtubeStudioProject/releases" target="_blank" rel="noopener noreferrer"><GithubIcon /><p><b>Version: {MemoryState.AppDetails.AppVersion}</b></p></a>
                 </div>
             </div>
         </aside>
