@@ -4,7 +4,6 @@ import { get } from "node:https";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { createCipheriv, createDecipheriv } from "node:crypto";
-import { Routes } from "../constants";
 
 export function DownloadFiles({
     DownloadUrl,
