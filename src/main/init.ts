@@ -166,7 +166,7 @@ export default function InitProcess() {
             }
         } else {
             try {
-                ReadPasswords
+                ReadPasswords()
                     .then(async ({ iv, key }) => {
                         await CreateConfigBase(iv, key);
                         console.log("Execute CreateConfigBase");
