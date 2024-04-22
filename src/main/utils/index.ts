@@ -30,26 +30,28 @@ export function DownloadFiles({
     });
 }
 
-export const ReadPasswords: Promise<{ key: Buffer, iv: Buffer }> = new Promise((resolve, reject) => {
-    existsSync(join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\bin')) && (() => {
-        const searchPath = join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\bin')
-        const JSONvalue: string = readFileSync(
-            searchPath,
-            {
-                encoding: 'utf-8'
-            }
-        )
-
-        const result = JSON.parse(JSONvalue);
-
-        resolve({
-            key: Buffer.from(result.key, 'hex'),
-            iv: Buffer.from(result.iv, 'hex'),
-        })
-
-        reject("no reasean available")
-    })()
-})
+export const ReadPasswords: () => Promise<{ key: Buffer, iv: Buffer }> = () => {
+    return new Promise((resolve, reject) => {
+        existsSync(join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\bin')) && (() => {
+            const searchPath = join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\bin')
+            const JSONvalue: string = readFileSync(
+                searchPath,
+                {
+                    encoding: 'utf-8'
+                }
+            )
+    
+            const result = JSON.parse(JSONvalue);
+    
+            resolve({
+                key: Buffer.from(result.key, 'hex'),
+                iv: Buffer.from(result.iv, 'hex'),
+            })
+    
+            reject("no reasean available")
+        })()
+    })
+}
 
 export async function EncriptData(key: Buffer, iv: Buffer, data: string) {
     try {
@@ -94,7 +96,7 @@ export function ImageBase64(img: string) {
 }
 
 export function ReadFileBynari(path: string, callback: (responce: any) => void) {
-    ReadPasswords
+    ReadPasswords()
         .then(async (value) => {
             let res = await DecryptData(
                 path,
@@ -107,7 +109,7 @@ export function ReadFileBynari(path: string, callback: (responce: any) => void) 
 }
 
 export function WriteFileBynari(path: string, _data: any, callback: (responce: boolean, data?: any) => void) {
-    ReadPasswords
+    ReadPasswords()
         .then(async ({ iv, key }) => {
             const response = await EncriptData(key, iv, JSON.stringify(_data))
                 .catch(() => console.log("Error al leer el archivo"))
