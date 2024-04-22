@@ -53,6 +53,7 @@ export default function Contants() {
                     }
                 }
             })
+            console.log("CustomBackground", name);
         }
     }
 
@@ -67,7 +68,7 @@ export default function Contants() {
                 ...SettingsState.Config,
                 Custom: {
                     ...SettingsState.Config.Custom,
-                    wallpaper: MemoryState.Wallpapers[0].Name
+                    wallpaper: MemoryState.Wallpapers[value - 1].Name
                 }
             }
         })

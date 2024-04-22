@@ -22,8 +22,6 @@ export default function AvatarsProvider({ children }: Contextinterface) {
 
     const [state, dispatch] = useReducer(reducer, DefaultValues);
 
-    console.log(state);
-
     function ModifyState({ action, value }: typeModelReducerSettings): void {
         dispatch({
             action,

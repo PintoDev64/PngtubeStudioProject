@@ -16,8 +16,7 @@ const api = {
     Send: (_data) => ipcRenderer.sendSync("SettingsSender", { _data })
   },
   Models: {
-    Receiver: () => ipcRenderer.sendSync("ModelsReceiver"),
-    Send: () => ipcRenderer.sendSync("ModelsSender")
+    Receiver: () => ipcRenderer.sendSync("ModelsReceiver")
   },
   Wallpapers: {
     Receiver: () => ipcRenderer.sendSync("WallpapersReceiver"),
@@ -30,6 +29,9 @@ const api = {
   }
 }
 
+// Use `contextBridge` APIs to expose Electron APIs to
+// renderer only if context isolation is enabled, otherwise
+// just add to the DOM global.
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)

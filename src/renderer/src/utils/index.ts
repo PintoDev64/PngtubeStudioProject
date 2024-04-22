@@ -16,10 +16,9 @@ export function SettingsAPI() {
     }
 }
 export function AvatarsAPI() {
-    const { Receiver, Send } = window.api.Models;
+    const { Receiver } = window.api.Models;
     return {
-        Receiver,
-        Send
+        Receiver
     }
 }
 export function WallpapersAPI() {

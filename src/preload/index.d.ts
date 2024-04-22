@@ -18,8 +18,7 @@ declare global {
         Send: (_data: TypeBaseConfig) => boolean
       }
       Models: {
-        Receiver: () => TypeModelConfigBase,
-        Send: () => TypeModelConfigBase
+        Receiver: () => TypeModelConfigBase
       }
       Wallpapers: {
         Receiver: () => TypeWallpaperConfig

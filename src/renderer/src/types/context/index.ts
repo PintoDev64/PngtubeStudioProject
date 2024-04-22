@@ -40,19 +40,6 @@ export interface MemoryContextProps {
     ModifyState: TypeModifyMemoryState
 }
 // ------------ Avatars Context
-export type TypeModelConfig = {
-    Id: number,
-    Name: string,
-    Owner: string,
-    Date: string,
-    Image: string,
-    Data: {
-        States: [
-            string[]
-        ]
-    },
-    URL: string
-}
 export type TypeModelConfigBase = {
     Id: number,
     Name: string,
