@@ -1,10 +1,10 @@
-import { app, ipcMain } from "electron";
-import { TypeBaseConfig, TypeWallpaperConfig } from "../types";
-import { ImageBase64, ReadFileBynari, WriteFileBynari } from "../utils";
+import { BrowserWindow, app, ipcMain } from "electron";
+import { TypeBaseConfig, TypeModelsConfigIndividual, TypeWallpaperConfig } from "../types";
+import { ImageBase64, ReadFileBynari, RequestFileText, WriteFileBynari } from "../utils";
 import { existsSync } from "node:fs";
 import { Routes } from "../constants";
 
-export default function API_Initializer() {
+export default function API_Initializer(MainWindow: BrowserWindow) {
     ipcMain.on("AppDetails", _event => {
         _event.returnValue = {
             AppVersion: app.getVersion()
@@ -37,6 +37,29 @@ export default function API_Initializer() {
             Routes.Avatars,
             responce => _event.returnValue = responce
         )
+    })
+    ipcMain.on('ModelsSender', async _event => {
+        const newModel = RequestFileText<string>(MainWindow, "Selecciona tu modelo", "Cargar Modelo", "Modelo", ["json", "pngtubestudio"])
+
+        if (newModel) {
+            ReadFileBynari(Routes.Avatars, (response: TypeModelsConfigIndividual[]) => {
+                response.push({
+                    Id: response.length + 1,
+                    ...JSON.parse(newModel)
+                })
+                WriteFileBynari(Routes.Avatars, response,
+                    (_res, data) => _event.returnValue = data
+                )
+            }
+            )
+        } else {
+            ReadFileBynari(
+                Routes.Avatars,
+                (response: TypeModelsConfigIndividual[]) => {
+                    _event.returnValue = response
+                }
+            )
+        }
     })
     ipcMain.on("WallpapersReceiver", _event => {
         ReadFileBynari(

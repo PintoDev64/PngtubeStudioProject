@@ -16,7 +16,8 @@ const api = {
     Send: (_data) => ipcRenderer.sendSync("SettingsSender", { _data })
   },
   Models: {
-    Receiver: () => ipcRenderer.sendSync("ModelsReceiver")
+    Receiver: () => ipcRenderer.sendSync("ModelsReceiver"),
+    Send: () => ipcRenderer.sendSync("ModelsSender")
   },
   Wallpapers: {
     Receiver: () => ipcRenderer.sendSync("WallpapersReceiver"),

@@ -1,6 +1,6 @@
 {
   "name": "pngtubestudio",
-  "version": "1.4.0",
+  "version": "1.4.5",
   "description": "Dedicated app for vtuber streamers using the PNG format",
   "main": "./out/main/index.js",
   "author": {
@@ -25,7 +25,9 @@
     ]
   },
   "publisher": "PintoGamer64",
-  "os": ["win32"],
+  "os": [
+    "win32"
+  ],
   "arch": "x64",
   "scripts": {
     "format": "prettier --write .",
@@ -44,6 +46,7 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^3.0.0",
+    "@xhayper/discord-rpc": "^1.1.2",
     "electron-log": "^5.1.2",
     "electron-updater": "^6.1.8"
   },

@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain, session, Tray, Menu } from 'electro
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { info, transports } from 'electron-log';
-import icon from '../../resources/Ookami.png?asset'
+import icon from '../../resources/pngtubestudiologo.png?asset'
 import { homedir } from 'os';
 
 // Imports
@@ -13,6 +13,7 @@ import { autoUpdater } from 'electron-updater';
 import { Routes } from './constants';
 import { ReadFileBynari } from './utils';
 import { TypeBaseConfig } from './types';
+import { DiscordActivity } from './integrations';
 
 // init's
 let reactDevToolsPath: string;
@@ -161,7 +162,7 @@ app.whenReady().then(async () => {
     mainWindow.webContents.setZoomFactor(ZoomFactorLevel)
   });
   
-  API_Initializer()
+  API_Initializer(mainWindow)
 
   const CheckDirectorys = Object.entries(Routes)
   for (const directory of CheckDirectorys) {
@@ -174,6 +175,8 @@ app.whenReady().then(async () => {
       break;
     }
   }
+
+  DiscordActivity()
 
   checkUpdates()
 

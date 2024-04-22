@@ -4,6 +4,7 @@ import { get } from "node:https";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { createCipheriv, createDecipheriv } from "node:crypto";
+import { BrowserWindow, dialog } from "electron";
 
 export function DownloadFiles({
     DownloadUrl,
@@ -129,4 +130,18 @@ export function WriteFileBynari(path: string, _data: any, callback: (responce: b
             }
         })
         .catch(() => console.log("Failed to set Settings"))
+}
+
+export function RequestFileText<T>(WindowSelector: BrowserWindow, title: string, label:string, name: string, extensions: string[]): T {
+    const FilePath = dialog.showOpenDialogSync(WindowSelector, {
+        title,
+        buttonLabel: label,
+        properties: ["openFile"],
+        filters: [{
+            extensions,
+            name
+        }]
+    })
+    if (FilePath) return readFileSync(FilePath[0], { encoding: 'utf-8' }) as T
+    else return null as T
 }
