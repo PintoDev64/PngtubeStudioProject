@@ -1,6 +1,6 @@
 {
   "name": "pngtubestudio",
-  "version": "1.4.0",
+  "version": "1.4.5",
   "description": "Dedicated app for vtuber streamers using the PNG format",
   "main": "./out/main/index.js",
   "author": {
@@ -36,7 +36,6 @@
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
     "build": "npm run typecheck && electron-vite build",
-    "postinstall": "electron-builder install-app-deps",
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
     "release": "npm run build && electron-builder -p always"
@@ -44,6 +43,9 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^3.0.0",
+    "@xhayper/discord-rpc": "^1.1.2",
+    "discord-rpc": "^4.0.1",
+    "dotenv": "^16.4.5",
     "electron-log": "^5.1.2",
     "electron-updater": "^6.1.8"
   },
@@ -51,19 +53,19 @@
     "@electron-toolkit/eslint-config-prettier": "^2.0.0",
     "@electron-toolkit/eslint-config-ts": "^2.0.0",
     "@electron-toolkit/tsconfig": "^1.0.1",
-    "@types/node": "^20.12.5",
-    "@types/react": "^18.2.74",
-    "@types/react-dom": "^18.2.24",
+    "@types/node": "^20.12.7",
+    "@types/react": "^18.2.79",
+    "@types/react-dom": "^18.2.25",
     "@vitejs/plugin-react": "^4.2.1",
-    "electron": "^29.2.0",
+    "electron": "^30.0.1",
     "electron-builder": "^24.13.3",
     "electron-vite": "^2.1.0",
-    "eslint": "^9.0.0",
+    "eslint": "^9.1.0",
     "eslint-plugin-react": "^7.34.1",
     "prettier": "^3.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "typescript": "^5.4.4",
-    "vite": "^5.2.8"
+    "typescript": "^5.4.5",
+    "vite": "^5.2.10"
   }
 }

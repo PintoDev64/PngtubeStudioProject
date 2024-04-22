@@ -2,9 +2,8 @@ import { app, shell, BrowserWindow, ipcMain, session, Tray, Menu } from 'electro
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { info, transports } from 'electron-log';
-import icon from '../../resources/Ookami.png?asset'
+import icon from '../../resources/pngtubestudiologo.ico?asset'
 import { homedir } from 'os';
-
 // Imports
 import API_Initializer from './api';
 import InitProcess from './init';
@@ -13,6 +12,7 @@ import { autoUpdater } from 'electron-updater';
 import { Routes } from './constants';
 import { ReadFileBynari } from './utils';
 import { TypeBaseConfig } from './types';
+import { DiscordActivity } from './integrations';
 
 // init's
 let reactDevToolsPath: string;
@@ -90,6 +90,7 @@ function checkUpdates() {
     body: "La actualizacion ha sido descargada y se instalara cuando cierre el programa (puede tardar un momento)"
   });
 }
+
 // Updates Events
 autoUpdater.on('update-available', () => {
   info('Actualizacion Disponible')
@@ -114,6 +115,8 @@ autoUpdater.on('error', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
+
+  DiscordActivity()
 
   createWindow()
 
@@ -153,15 +156,13 @@ app.whenReady().then(async () => {
     return mainWindow.maximize();
   });
   ipcMain.on('ZoomPlus', () => {
-    ZoomFactorLevel = ZoomFactorLevel + 0.1
-    mainWindow.webContents.setZoomFactor(ZoomFactorLevel)
+    mainWindow.webContents.setZoomFactor(mainWindow.webContents.zoomFactor + 0.1)
   });
   ipcMain.on('ZoomMinus', () => {
-    ZoomFactorLevel = ZoomFactorLevel - 0.1
-    mainWindow.webContents.setZoomFactor(ZoomFactorLevel)
+    mainWindow.webContents.setZoomFactor(mainWindow.webContents.zoomFactor - 0.1)
   });
-  
-  API_Initializer()
+
+  API_Initializer(mainWindow)
 
   const CheckDirectorys = Object.entries(Routes)
   for (const directory of CheckDirectorys) {
@@ -192,7 +193,3 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
-
-// In this file you can include the rest of your app"s specific main process
-// code. You can also put them in separate files and require them here.
-

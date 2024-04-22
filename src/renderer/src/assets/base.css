@@ -283,6 +283,7 @@ body {
 }
 
 .AvatarShowcase-List-Elements {
+    position: relative;
     cursor: pointer;
     display: flex;
     width: 75px;
@@ -293,6 +294,16 @@ body {
     background: #ffffff;
     border-radius: 2.5px;
     justify-content: center;
+}
+
+.AvatarShowcase-List-Element-Selected::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    height: 100%;
+    content: "";
+    background-color: #00ccff;
 }
 
 .AvatarShowcase-List-Elements:nth-child(even) {

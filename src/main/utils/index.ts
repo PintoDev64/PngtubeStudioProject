@@ -4,6 +4,7 @@ import { get } from "node:https";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { createCipheriv, createDecipheriv } from "node:crypto";
+import { BrowserWindow, dialog } from "electron";
 
 export function DownloadFiles({
     DownloadUrl,
@@ -29,26 +30,28 @@ export function DownloadFiles({
     });
 }
 
-export const ReadPasswords: Promise<{ key: Buffer, iv: Buffer }> = new Promise((resolve, reject) => {
-    existsSync(join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\bin')) && (() => {
-        const searchPath = join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\bin')
-        const JSONvalue: string = readFileSync(
-            searchPath,
-            {
-                encoding: 'utf-8'
-            }
-        )
+export const ReadPasswords: () => Promise<{ key: Buffer, iv: Buffer }> = () => {
+    return new Promise((resolve, reject) => {
+        existsSync(join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\bin')) && (() => {
+            const searchPath = join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\bin')
+            const JSONvalue: string = readFileSync(
+                searchPath,
+                {
+                    encoding: 'utf-8'
+                }
+            )
 
-        const result = JSON.parse(JSONvalue);
+            const result = JSON.parse(JSONvalue);
 
-        resolve({
-            key: Buffer.from(result.key, 'hex'),
-            iv: Buffer.from(result.iv, 'hex'),
-        })
+            resolve({
+                key: Buffer.from(result.key, 'hex'),
+                iv: Buffer.from(result.iv, 'hex'),
+            })
 
-        reject("no reasean available")
-    })()
-})
+            reject("no reasean available")
+        })()
+    })
+}
 
 export async function EncriptData(key: Buffer, iv: Buffer, data: string) {
     try {
@@ -93,40 +96,51 @@ export function ImageBase64(img: string) {
 }
 
 export function ReadFileBynari(path: string, callback: (responce: any) => void) {
-    ReadPasswords
+    ReadPasswords()
         .then(async (value) => {
             let res = await DecryptData(
                 path,
                 value.key,
                 value.iv,
             ).catch(() => console.log("Error al leer el archivo"))
-            callback(res)
+            return callback(res)
         })
         .catch(() => console.log("Failed to get Settings"))
 }
 
 export function WriteFileBynari(path: string, _data: any, callback: (responce: boolean, data?: any) => void) {
-    ReadPasswords
+    ReadPasswords()
         .then(async ({ iv, key }) => {
             const response = await EncriptData(key, iv, JSON.stringify(_data))
                 .catch(() => console.log("Error al leer el archivo"))
             if (response) {
-                writeFile(
-                    path,
-                    response,
-                    (err) => {
-                        if (err) {
-                            callback(false)
-                        } else {
-                            ReadFileBynari(
-                                path,
-                                (response) => callback(true, response)
-                            )
+                writeFile(path, response, (err) => {
+                    if (err) {
+                        callback(false)
+                    } else {
+                        ReadFileBynari(
+                            path,
+                            (response) => callback(true, response)
+                        )
 
-                        }
                     }
+                }
                 )
             }
         })
         .catch(() => console.log("Failed to set Settings"))
+}
+
+export function RequestFileText<T>(WindowSelector: BrowserWindow, title: string, label:string, name: string, extensions: string[]): T {
+    const FilePath = dialog.showOpenDialogSync(WindowSelector, {
+        title,
+        buttonLabel: label,
+        properties: ["openFile"],
+        filters: [{
+            extensions,
+            name
+        }]
+    })
+    if (FilePath) return readFileSync(FilePath[0], { encoding: 'utf-8' }) as T
+    else return null as T
 }
