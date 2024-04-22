@@ -15,7 +15,7 @@
   "build": {
     "appId": "com.pintogamer.pngtubestudio",
     "productName": "PngtubeStudio",
-    "icon": "resources/Ookami.ico",
+    "icon": "resources/pngtubestudiologo.ico",
     "publish": [
       {
         "provider": "github",
