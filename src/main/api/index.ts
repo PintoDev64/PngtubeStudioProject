@@ -3,8 +3,6 @@ import { TypeBaseConfig, TypeModelsConfigIndividual, TypeWallpaperConfig } from 
 import { ImageBase64, ReadFileBynari, RequestFileText, WriteFileBynari } from "../utils";
 import { existsSync } from "node:fs";
 import { Routes } from "../constants";
-import { exec } from "node:child_process";
-import { join } from "node:path";
 
 export default function API_Initializer(MainWindow: BrowserWindow) {
     ipcMain.on("AppDetails", _event => {
