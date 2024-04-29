@@ -3,6 +3,8 @@ import { TypeBaseConfig, TypeModelsConfigIndividual, TypeWallpaperConfig } from 
 import { ImageBase64, ReadFileBynari, RequestFileText, WriteFileBynari } from "../utils";
 import { existsSync } from "node:fs";
 import { Routes } from "../constants";
+import { exec } from "node:child_process";
+import { join } from "node:path";
 
 export default function API_Initializer(MainWindow: BrowserWindow) {
     ipcMain.on("AppDetails", _event => {
@@ -23,7 +25,6 @@ export default function API_Initializer(MainWindow: BrowserWindow) {
         )
     })
     ipcMain.on("SettingsSender", (_event, { _data }: { _data: TypeBaseConfig }) => {
-        console.log(_data);
         WriteFileBynari(
             Routes.Settings,
             _data,
@@ -67,7 +68,7 @@ export default function API_Initializer(MainWindow: BrowserWindow) {
             response => _event.returnValue = response
         )
     })
-    ipcMain.on("WallpapersSender", (_event, { newWallpaper }: { newWallpaper: TypeWallpaperConfig }) => { 
+    ipcMain.on("WallpapersSender", (_event, { newWallpaper }: { newWallpaper: TypeWallpaperConfig }) => {
         ReadFileBynari(
             Routes.Wallpapers,
             (response: TypeWallpaperConfig) => {
@@ -84,7 +85,7 @@ export default function API_Initializer(MainWindow: BrowserWindow) {
             }
         )
     })
-    ipcMain.on("WallpapersDeleter", (_event, { wallpaperIndex }: { wallpaperIndex: number }) => { 
+    ipcMain.on("WallpapersDeleter", (_event, { wallpaperIndex }: { wallpaperIndex: number }) => {
         ReadFileBynari(
             Routes.Wallpapers,
             (response: TypeWallpaperConfig) => {

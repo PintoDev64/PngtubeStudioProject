@@ -18,6 +18,9 @@ export default function ControlButtons() {
                 })}>
                 <Avatars />
             </button>
+            <a target='_blank' href='https://pintogamer64.itch.io/pngtubemini-modeleditor' className="FooBar-LateralLeft-ButtonExtended">
+                Crear un Modelo
+            </a>
         </div>
     )
 }

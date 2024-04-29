@@ -42,7 +42,7 @@ body {
 
 #PngtubeStudio_HeaderName {
     margin: 0;
-    width: 60%;
+    width: 100%;
     -webkit-app-region: drag;
 }
 
@@ -59,7 +59,6 @@ body {
 #PngtubeStudio_HeaderButtons,
 #PngtubeStudio_HeaderControls {
     display: flex;
-    width: 20%;
 }
 
 #PngtubeStudio_HeaderButtons {
@@ -232,11 +231,14 @@ body {
     margin: 0 10px 0 0;
     position: absolute;
     z-index: 1;
+    padding: 10px 0;
     overflow: hidden;
     width: 100px;
-    height: 370px;
+    height: 400px;
     transition: all .15s ease;
     overflow-y: auto;
+    border-top: 5px solid #000;
+    border-bottom: 5px solid #000;
 }
 
 #AvatarShowcase::-webkit-scrollbar {
@@ -273,7 +275,6 @@ body {
 #AvatarShowcase-List {
     flex-direction: column;
     list-style: none;
-    height: 100%;
     width: 100%;
     padding: 0;
     margin: 0;
@@ -285,6 +286,7 @@ body {
 .AvatarShowcase-List-Elements {
     cursor: pointer;
     display: flex;
+    position: relative;
     width: 75px;
     height: 75px;
     padding: 5px;
@@ -293,10 +295,20 @@ body {
     background: #ffffff;
     border-radius: 2.5px;
     justify-content: center;
+    box-shadow: 0 0 7.5px #000000;
 }
 
 .AvatarShowcase-List-Elements:nth-child(even) {
     margin: 10px 0;
+}
+
+.AvatarShowcase-List-Element-Selected::before {
+    position: absolute;
+    right: 0;
+    content: "";
+    height: 100%;
+    width: 5px;
+    background-color: #000;
 }
 
 .AvatarShowcase-List-AvatarName {
@@ -375,6 +387,7 @@ body {
     border-radius: 2.5px;
     background-color: #ffffff;
     padding: 2.5px 0;
+    box-shadow: 0 0 7.5px #000000;
 }
 
 #FooBar-Microphone>* {
@@ -572,6 +585,7 @@ body {
 
 .FooBar-LateralRight-Button,
 .FooBar-LateralLeft-Button {
+    margin: 0 0 0 10px;
     border-radius: 2.5px;
     background: #ffffff;
     border: none;
@@ -580,12 +594,27 @@ body {
     padding: 0;
     height: 40px;
     display: grid;
-    place-items: center
+    place-items: center;
+    box-shadow: 0 0 7.5px #000000;
+    cursor: pointer;
 }
 
-.FooBar-LateralRight-Button:nth-child(even),
-.FooBar-LateralLeft-Button:nth-child(even) {
-    margin: 0 10px;
+.FooBar-LateralLeft-ButtonExtended {
+    text-decoration: none;
+    font-size: large;
+    font-weight: bold;
+    border-radius: 2.5px;
+    background: #ffffff;
+    border: none;
+    position: relative;
+    width: auto;
+    padding: 0 10px;
+    color: #000000;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 0 7.5px #000000;
+    cursor: pointer;
 }
 
 .FooBar-LateralRight-Button:hover:before,
@@ -593,6 +622,15 @@ body {
     content: '';
     position: absolute;
     width: 30px;
+    height: 30px;
+    background: #00000040;
+    border-radius: 2.5px;
+}
+
+.FooBar-LateralLeft-ButtonExtended:hover:before {
+    content: '';
+    position: absolute;
+    width: 95%;
     height: 30px;
     background: #00000040;
     border-radius: 2.5px;

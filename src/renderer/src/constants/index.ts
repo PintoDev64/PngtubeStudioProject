@@ -68,7 +68,7 @@ export default function Contants() {
                 ...SettingsState.Config,
                 Custom: {
                     ...SettingsState.Config.Custom,
-                    wallpaper: MemoryState.Wallpapers[value - 1].Name
+                    wallpaper: MemoryState.Wallpapers[0].Name
                 }
             }
         })
@@ -259,6 +259,19 @@ export default function Contants() {
         }
     ]
 
+    const IntegrationsRoutes: PropagtorStructureComponents[] = [
+        {
+            Id: 0,
+            Component: Checkbox,
+            Execute: () => {},
+            ChangeCondition: false,
+            Complement: {
+                Text: "Discord Activity",
+                Definition: "Desactiva tu presencia de actividad en Discord cuando usas la app"
+            }
+        }
+    ]
+
     const SettingsListDetails: PropagtorStructureList = [
         {
             Id: 0,
@@ -280,6 +293,15 @@ export default function Contants() {
         },
         {
             Id: 2,
+            Text: "🔌 Integraciones",
+            ChangeCondition: MemoryState.SettingRouter === "Integrations",
+            Execution: () => ModifyMemory({
+                action: 'SettingRouter',
+                value: "Integrations"
+            })
+        },
+        {
+            Id: 3,
             Text: "🔨 Avanzado",
             ChangeCondition: MemoryState.SettingRouter === "Advanced",
             Execution: () => ModifyMemory({
@@ -293,6 +315,7 @@ export default function Contants() {
         SettingsListDetails,
         SettingsRoutes,
         VoiceRoutes,
+        IntegrationsRoutes,
         AdvancedRoutes,
         consts: {
             VoiceFftsizes

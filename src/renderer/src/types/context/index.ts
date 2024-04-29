@@ -29,7 +29,7 @@ export type AppDetails = {
 export type DefaultValuesMemory = {
     Fullscreen: boolean,
     Settings: boolean,
-    SettingRouter: "Appareance" | "Advanced" | "Audio",
+    SettingRouter: "Appareance" | "Advanced" | "Audio" | "Integrations",
     AvatarsShowcase: boolean,
     AppDetails: AppDetails,
     SettingsPreload: TypeBaseConfig,

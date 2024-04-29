@@ -17,7 +17,6 @@ import { DiscordActivity } from './integrations';
 
 // init's
 let reactDevToolsPath: string;
-let ZoomFactorLevel = 1
 let tray: Tray;
 
 //DevToools
@@ -56,8 +55,9 @@ function createWindow(): void {
     titleBarStyle: "hidden",
     center: true,
     webPreferences: {
-      zoomFactor: ZoomFactorLevel,
+      zoomFactor: 1,
       preload: join(__dirname, '../preload/index.js'),
+      devTools: is.dev && process.env['ELECTRON_RENDERER_URL'] ? true : false,
       sandbox: false
     }
   })
@@ -65,6 +65,8 @@ function createWindow(): void {
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
   })
+
+  mainWindow.webContents.setUserAgent("PintoGamer64/PngtubeStudio");
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
@@ -154,22 +156,17 @@ app.whenReady().then(async () => {
     return mainWindow.maximize();
   });
   ipcMain.on('ZoomPlus', () => {
-    ZoomFactorLevel = ZoomFactorLevel + 0.1
-    mainWindow.webContents.setZoomFactor(ZoomFactorLevel)
+    mainWindow.webContents.setZoomFactor(mainWindow.webContents.zoomFactor + 0.1)
   });
   ipcMain.on('ZoomMinus', () => {
-    ZoomFactorLevel = ZoomFactorLevel - 0.1
-    mainWindow.webContents.setZoomFactor(ZoomFactorLevel)
+    mainWindow.webContents.setZoomFactor(mainWindow.webContents.zoomFactor - 0.1)
   });
-  
+
   API_Initializer(mainWindow)
 
   const CheckDirectorys = Object.entries(Routes)
   for (const directory of CheckDirectorys) {
-    console.log(directory[1]);
-
     if (!existsSync(directory[1])) {
-      console.log("creando configuracion");
       await InitProcess().__Init__()
       app.quit();
       break;

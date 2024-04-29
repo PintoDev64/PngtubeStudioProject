@@ -251,11 +251,12 @@
     width: 100%;
     display: flex;
 }
+
 .OptionsElementList {
     flex-direction: column;
 }
 
-#SettingsView-Content > div:nth-child(even) {
+#SettingsView-Content>div:nth-child(even) {
     margin: 20px 0;
 }
 
@@ -389,6 +390,20 @@
     cursor: pointer;
 }
 
+.OptionsElement-ListElementAction button {
+    border-radius: 2.5px;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-content: center;
+    background: transparent;
+    border: none;
+}
+
+.OptionsElement-ListElementAction button:hover {
+    background: #00000030;
+}
+
 .OptionsElement-ListElementAction svg {
     transform: scale(2);
 }
@@ -439,7 +454,7 @@
     position: relative;
     appearance: none;
     width: 100px;
-    height: 20px;
+    height: 27px;
     border: none;
     background: linear-gradient(to right, red, yellow, lime, cyan, blue, magenta, red);
     cursor: pointer;
@@ -449,9 +464,9 @@
     position: relative;
     -webkit-appearance: none;
     width: 5px;
-    height: 20px;
+    height: 27px;
     z-index: 5;
-    background: #000000;
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 33%, rgba(255,255,255,0) 33%, rgba(255,255,255,0) 67%, rgba(0,0,0,1) 67%);
     transition: all .2s
 }
 

@@ -14,7 +14,7 @@ export default function ViewSettings() {
 
     const { MemoryState, ModifyState } = useContext(MemoryContext);
 
-    const { SettingsRoutes, VoiceRoutes, AdvancedRoutes } = Contants();
+    const { SettingsRoutes, VoiceRoutes, AdvancedRoutes, IntegrationsRoutes } = Contants();
     const { Compare, Discard, Save, SaveResponce } = useSettings()
 
     function DrawInterface() {
@@ -26,6 +26,9 @@ export default function ViewSettings() {
         }
         if (MemoryState.SettingRouter === 'Advanced') {
             return <ComponentsPropagator Data={AdvancedRoutes} />
+        }
+        if (MemoryState.SettingRouter === 'Integrations') {
+            return <ComponentsPropagator Data={IntegrationsRoutes} />
         } else {
             return <div></div>
         }
@@ -47,24 +50,24 @@ export default function ViewSettings() {
                 <DrawInterface />
             </section>
             <footer id="SettingsView-Content-Confirm" style={
-                    Compare()
-                        ? {
-                            display: 'none'
-                        }
-                        : {
-                            display: 'flex'
-                        }
-                }>
-                    <p id="SettingsView-Content-Confirm-Text">¿Quieres guardar los cambios?</p>
-                    <div id="SettingsView-Content-Confirm-Options">
-                        <button className="SettingsView-Content-Confirm-Options_Buttons" id="SettingsView-Content-Confirm-Options_Discard" onClick={Discard}>
-                            <h4>Descartar</h4>
-                        </button>
-                        <button className={`SettingsView-Content-Confirm-Options_Buttons ${SaveResponce ? "SettingsView-Content-Confirm-Good" : "SettingsView-Content-Confirm-Failure"}`} id="SettingsView-Content-Confirm-Options_Save" onClick={Save}>
-                            <h4>{SaveResponce ? "💾 Guardar" : "Reintentar"}</h4>
-                        </button>
-                    </div>
-                </footer>
+                Compare()
+                    ? {
+                        display: 'none'
+                    }
+                    : {
+                        display: 'flex'
+                    }
+            }>
+                <p id="SettingsView-Content-Confirm-Text">¿Quieres guardar los cambios?</p>
+                <div id="SettingsView-Content-Confirm-Options">
+                    <button className="SettingsView-Content-Confirm-Options_Buttons" id="SettingsView-Content-Confirm-Options_Discard" onClick={Discard}>
+                        <h4>Descartar</h4>
+                    </button>
+                    <button className={`SettingsView-Content-Confirm-Options_Buttons ${SaveResponce ? "SettingsView-Content-Confirm-Good" : "SettingsView-Content-Confirm-Failure"}`} id="SettingsView-Content-Confirm-Options_Save" onClick={Save}>
+                        <h4>{SaveResponce ? "💾 Guardar" : "Reintentar"}</h4>
+                    </button>
+                </div>
+            </footer>
         </article>
     )
 }
