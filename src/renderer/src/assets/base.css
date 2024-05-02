@@ -126,6 +126,55 @@ body {
     transform: scale(1.1) rotate(45deg);
 }
 
+#Download svg {
+    padding: 5px;
+    border-radius: 40px;
+    background: #00ff00;
+    transform: scale(0.4);
+}
+
+#Download:hover::before {
+    overflow: hidden;
+    display: grid;
+    place-content: center;
+    content: "Actualizacion Disponible";
+    position: absolute;
+    font-size: medium;
+    bottom: calc(-100% - 15px);
+    font-weight: bold;
+    left: calc(-100% - 35px);
+    width: 200px;
+    border-radius: 3.5px;
+    height: 40px;
+    background: #ffffff;
+    outline: 1px solid #000000;
+    z-index: 5;
+    animation: DownloadAnimation .1s ease-in-out;
+}
+
+@keyframes DownloadAnimation {
+    0% {
+        height: 0;
+        bottom: -25%;
+    }
+
+    100% {
+        height: 40px;
+        bottom: calc(-100% - 15px);
+    }
+}
+
+#FullScreenButton,
+#SettingsButton,
+#ZoomMinusButton,
+#ZoomPlusButton,
+#Minimize,
+#MaxMin,
+#Close {
+    cursor: pointer;
+}
+
+#Download,
 #Minimize,
 #MaxMin,
 #Close {

@@ -147,3 +147,22 @@ export function RequestFileText<T>(WindowSelector: BrowserWindow, title: string,
     if (FilePath) return readFileSync(FilePath[0], { encoding: 'utf-8' }) as T
     else return null as T
 }
+
+export function isVersionGreater(version1, version2) {
+    const parts1 = version1.split('.').map(Number);
+    const parts2 = version2.split('.').map(Number);
+
+    for (let i = 0; i < Math.max(parts1.length, parts2.length); i++) {
+        const part1 = parts1[i] || 0;
+        const part2 = parts2[i] || 0;
+
+        if (part1 > part2) {
+            return true;
+        } else if (part1 < part2) {
+            return false;
+        }
+    }
+
+    // Si las versiones son iguales, devuelve false
+    return false;
+}

@@ -11,7 +11,7 @@ import InitProcess from './init';
 import { existsSync } from 'fs';
 import { autoUpdater } from 'electron-updater';
 import { Routes } from './constants';
-import { ReadFileBynari } from './utils';
+import { ReadFileBynari, isVersionGreater } from './utils';
 import { TypeBaseConfig } from './types';
 import { DiscordActivity } from './integrations';
 
@@ -29,6 +29,9 @@ if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
 
 if (existsSync(Routes.Settings)) {
   ReadFileBynari(Routes.Settings, (response: TypeBaseConfig) => {
+    if (response.Config.Integrations.Discord) {
+      DiscordActivity()
+    }
     if (!response.Config.hardwareAcceleration) {
       app.disableHardwareAcceleration()
     }
@@ -66,6 +69,8 @@ function createWindow(): void {
     mainWindow.show()
   })
 
+  mainWindow.webContents.setMaxListeners(0)
+
   mainWindow.webContents.setUserAgent("PintoGamer64/PngtubeStudio");
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -85,15 +90,9 @@ function createWindow(): void {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 }
-
-// Function Updates 
-function checkUpdates() {
-  autoUpdater.checkForUpdatesAndNotify({
-    title: `New PngtubeStudio Version: ${app.getVersion()}`,
-    body: "La actualizacion ha sido descargada y se instalara cuando cierre el programa (puede tardar un momento)"
-  });
-}
 // Updates Events
+autoUpdater.forceDevUpdateConfig = true
+// -----------------------------------------
 autoUpdater.on('update-available', () => {
   info('Actualizacion Disponible')
 }); // -----------------------------------------
@@ -117,6 +116,50 @@ autoUpdater.on('error', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
+
+  // IPC Comunication
+  ipcMain.on('minimize', () => {
+    mainWindow.minimize()
+  });
+  ipcMain.on('close', () => {
+    mainWindow.close()
+  });
+  ipcMain.on('restore', () => {
+    if (mainWindow.isMaximized()) return mainWindow.restore();
+    return mainWindow.maximize();
+  });
+  ipcMain.on('ZoomPlus', () => {
+    mainWindow.webContents.setZoomFactor(mainWindow.webContents.zoomFactor + 0.1)
+  });
+  ipcMain.on('ZoomMinus', () => {
+    mainWindow.webContents.setZoomFactor(mainWindow.webContents.zoomFactor - 0.1)
+  });
+  ipcMain.on("AppUpdates", () => {
+    autoUpdater.checkForUpdates()
+      .then((value) => {
+        if (value?.updateInfo) {
+          mainWindow.webContents.send("AppUpdates", { version: isVersionGreater(value?.updateInfo.version, app.getVersion()) })
+          autoUpdater.checkForUpdatesAndNotify({
+            title: `New PngtubeStudio Version: ${app.getVersion()}`,
+            body: "La actualizacion ha sido descargada y se instalara cuando cierre el programa (puede tardar un momento)"
+          });
+        } else {
+          mainWindow.webContents.send("AppUpdates", { version: value?.updateInfo.version === app.getVersion() })
+        }
+      })
+      .catch(() => mainWindow.webContents.send("AppUpdates", { version: false }))
+  })
+
+  API_Initializer(mainWindow)
+
+  const CheckDirectorys = Object.entries(Routes)
+  for (const directory of CheckDirectorys) {
+    if (!existsSync(directory[1])) {
+      await InitProcess().__Init__()
+      app.quit();
+      break;
+    }
+  }
 
   createWindow()
 
@@ -144,39 +187,6 @@ app.whenReady().then(async () => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC Comunication
-  ipcMain.on('minimize', () => {
-    mainWindow.minimize()
-  });
-  ipcMain.on('close', () => {
-    mainWindow.close()
-  });
-  ipcMain.on('restore', () => {
-    if (mainWindow.isMaximized()) return mainWindow.restore();
-    return mainWindow.maximize();
-  });
-  ipcMain.on('ZoomPlus', () => {
-    mainWindow.webContents.setZoomFactor(mainWindow.webContents.zoomFactor + 0.1)
-  });
-  ipcMain.on('ZoomMinus', () => {
-    mainWindow.webContents.setZoomFactor(mainWindow.webContents.zoomFactor - 0.1)
-  });
-
-  API_Initializer(mainWindow)
-
-  const CheckDirectorys = Object.entries(Routes)
-  for (const directory of CheckDirectorys) {
-    if (!existsSync(directory[1])) {
-      await InitProcess().__Init__()
-      app.quit();
-      break;
-    }
-  }
-
-  DiscordActivity()
-
-  checkUpdates()
-
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
@@ -190,6 +200,7 @@ app.whenReady().then(async () => {
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
+    info(`Saliendo de la aplicacion: (${new Date()})\n\n\n`)
   }
 })
 

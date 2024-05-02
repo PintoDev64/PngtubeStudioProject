@@ -26,7 +26,13 @@ const api = {
   },
   App: {
     Checker: () => ipcRenderer.send("SettingsChecker"),
-    AppDetails: () => ipcRenderer.sendSync("AppDetails")
+    AppDetails: () => ipcRenderer.sendSync("AppDetails"),
+    AppUpdates: (callback: (version: boolean) => any) => {
+      ipcRenderer.send("AppUpdates")
+      ipcRenderer.on("AppUpdates", (_event, { version }: { version: boolean }) => {
+        callback(version)
+      })
+    }
   }
 }
 

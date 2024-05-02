@@ -5,6 +5,9 @@ export type TypeBaseConfig = {
     Model: string,
     Avatars: string,
     Config: {
+        Integrations: {
+            Discord: boolean
+        }
         AudioFftsize:  32 | 64 | 128 | 256 | 512 | 1024 | 2048 | 4096,
         hardwareAcceleration: boolean,
         NoiseSupression: boolean,

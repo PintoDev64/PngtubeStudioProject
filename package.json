@@ -1,6 +1,6 @@
 {
   "name": "pngtubestudio",
-  "version": "1.5.0",
+  "version": "1.5.5",
   "description": "Dedicated app for vtuber streamers using the PNG format",
   "main": "./out/main/index.js",
   "author": {

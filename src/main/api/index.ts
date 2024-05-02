@@ -17,7 +17,7 @@ export default function API_Initializer(MainWindow: BrowserWindow) {
     ipcMain.on("SettingsReceiver", _event => {
         ReadFileBynari(
             Routes.Settings,
-            (responce: any) => {
+            (responce: TypeBaseConfig) => {
                 _event.returnValue = responce
             }
         )

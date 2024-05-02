@@ -35,7 +35,7 @@ export default function Contants() {
                 ...SettingsState.Config,
                 Custom: {
                     ...SettingsState.Config.Custom,
-                    type: SettingsState.Config.Custom.type === "Color" ? "Image" : "Color"
+                    type: SettingsState.Config?.Custom?.type === "Color" ? "Image" : "Color"
                 }
             }
         })
@@ -48,7 +48,7 @@ export default function Contants() {
                 value: {
                     ...SettingsState.Config,
                     Custom: {
-                        ...SettingsState.Config.Custom,
+                        ...SettingsState.Config?.Custom,
                         wallpaper: name
                     }
                 }
@@ -153,6 +153,22 @@ export default function Contants() {
         })
     }
 
+    function ChangeDiscordIntegrations() {
+        ModifySettings({
+            action: 'Config',
+            value: {
+                ...SettingsState.Config,
+                Integrations: {
+                    ...SettingsState.Config.Integrations,
+                    Discord: !SettingsState.Config.Integrations?.Discord
+                },
+                Custom: {
+                    ...SettingsState.Config.Custom
+                }
+            }
+        })
+    }
+
     // Miscelaneo
 
     const VoiceFftsizes: number[] = [32, 64, 128, 256, 512, 1024, 2048, 4096]
@@ -163,7 +179,7 @@ export default function Contants() {
             Id: 0,
             Component: Checkbox,
             Execute: ChangeAudioLevel,
-            ChangeCondition: !SettingsState.Config.Custom.audioLevel,
+            ChangeCondition: SettingsState.Config?.Custom?.audioLevel,
             Complement: {
                 Text: "Nivel de audio",
                 Definition: "Muestra el valor exacto del volumen del microfono",
@@ -173,7 +189,7 @@ export default function Contants() {
             Id: 1,
             Component: Checkbox,
             Execute: TypeBackground,
-            ChangeCondition: SettingsState.Config.Custom.type === "Color",
+            ChangeCondition: SettingsState.Config?.Custom?.type === "Image",
             Complement: {
                 Text: "Imagen de fondo",
                 Definition: "Escoge entre un color solido o una imagen de fondo",
@@ -186,7 +202,7 @@ export default function Contants() {
             Complement: {
                 Text: "Color de Fondo",
                 Definition: "",
-                value: SettingsState.Config.Custom.colorBackground
+                value: SettingsState.Config.Custom?.colorBackground
             }
         },
         {
@@ -220,7 +236,7 @@ export default function Contants() {
             Complement: {
                 Text: "Tamaño de Buffer",
                 Definition: "Calidad de captura de audio (puede afectar al rendimiento)",
-                value: `${SettingsState.Config.AudioFftsize}`
+                value: `${SettingsState.Config?.AudioFftsize}`
             },
             Execute: ChangeFftsize
         },
@@ -228,7 +244,7 @@ export default function Contants() {
             Id: 1,
             Component: Checkbox,
             Execute: ChangeNoiseSupression,
-            ChangeCondition: SettingsState.Config.NoiseSupression === false,
+            ChangeCondition: SettingsState.Config?.NoiseSupression,
             Complement: {
                 Text: "Supresion de Sonido",
                 Definition: ""
@@ -238,7 +254,7 @@ export default function Contants() {
             Id: 2,
             Component: Checkbox,
             Execute: ChangeEchoCancellation,
-            ChangeCondition: SettingsState.Config.EchoCancellation === false,
+            ChangeCondition: SettingsState.Config?.EchoCancellation,
             Complement: {
                 Text: "Cancelacion de Eco",
                 Definition: ""
@@ -251,10 +267,11 @@ export default function Contants() {
             Id: 0,
             Component: Checkbox,
             Execute: ChangeHardwareAcceleration,
-            ChangeCondition: SettingsState.Config.hardwareAcceleration === false,
+            ChangeCondition: SettingsState.Config?.hardwareAcceleration,
             Complement: {
+                RequireRestart: true,
                 Text: "Aceleracion por Hardware",
-                Definition: "Utiliza tu GPU para una experiencia más fluida, esta caracteristica requiere un reinicio (puede afectar al rendimiento)"
+                Definition: "Utiliza tu GPU para una experiencia más fluida (puede afectar al rendimiento)"
             }
         }
     ]
@@ -263,9 +280,10 @@ export default function Contants() {
         {
             Id: 0,
             Component: Checkbox,
-            Execute: () => {},
-            ChangeCondition: false,
+            Execute: ChangeDiscordIntegrations,
+            ChangeCondition: SettingsState.Config.Integrations?.Discord,
             Complement: {
+                RequireRestart: true,
                 Text: "Discord Activity",
                 Definition: "Desactiva tu presencia de actividad en Discord cuando usas la app"
             }

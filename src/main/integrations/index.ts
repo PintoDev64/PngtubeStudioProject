@@ -14,7 +14,7 @@ export function DiscordActivity() {
             buttons: [{
                 label: "itch.io",
                 url: "https://pintogamer64.itch.io/pngtubestudio"
-            },{
+            }, {
                 label: "GitHub",
                 url: "https://github.com/PintoGamer64/PngtubeStudioProject"
             }],
@@ -25,6 +25,5 @@ export function DiscordActivity() {
             instance: false,
         });
     });
-    
-    client.login();
+    client.login()
 }

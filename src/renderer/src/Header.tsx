@@ -1,5 +1,5 @@
 // Modules
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 // Assets
 import Close from "./assets/icons/Close";
 import EnterFullscreen from "./assets/icons/FullScreen";
@@ -7,17 +7,21 @@ import MaxMin from "./assets/icons/MaxMin";
 import Minimize from "./assets/icons/Minimize";
 import SettingsIcon from "./assets/icons/Settings";
 // Utilitys
-import { WindowAPI } from "./utils";
+import { AppAPI, WindowAPI } from "./utils";
 // Contexts
 import { MemoryContext } from "./context";
 // Events
 import useEventsDefinitios from "./events";
+import DownloadIcon from "./assets/icons/Download";
 
 export default function Header() {
 
+    const [Updates, setUpdates] = useState<boolean>(false)
+
     useEventsDefinitios()
 
-    const { CloseWindow, MinMaxWindow, MinimizeWindow, ZoomPlus, ZoomMinus } = WindowAPI()
+    const { CloseWindow, MinMaxWindow, MinimizeWindow, ZoomPlus, ZoomMinus } = WindowAPI();
+    const { AppUpdates } = AppAPI();
 
     const { MemoryState, ModifyState } = useContext(MemoryContext)
 
@@ -39,6 +43,16 @@ export default function Header() {
         })
     }
 
+    useEffect(() => {
+        console.log("timer started");
+
+        const inter = setInterval(() => AppUpdates((version) => {
+            console.log(version);
+            setUpdates(version)
+        }), 15000)
+        return () => clearInterval(inter)
+    }, [])
+
     return (
         <header id="PngtubeStudio_Header">
             <div id="PngtubeStudio_HeaderButtons">
@@ -59,6 +73,11 @@ export default function Header() {
                 <h1>PngtubeStudio</h1>
             </div>
             <div id="PngtubeStudio_HeaderControls">
+                {
+                    Updates && <div className="PngtubeStudio_HeaderControls_Elements" id="Download">
+                        <DownloadIcon />
+                    </div>
+                }
                 <button className="PngtubeStudio_HeaderControls_Elements" id="Minimize" onClick={MinimizeWindow}>
                     <Minimize />
                 </button>

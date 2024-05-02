@@ -5,13 +5,13 @@ export default function Checkbox({ Complement, Execute, ChangeCondition }: Check
 
     return (
         <div className="OptionsElement">
-            <div className="OptionsElement-Data">
+            <div className={`OptionsElement-Data ${Complement.RequireRestart ? "OptionsElement-RequireRestart" : ""}`}>
                 <h2>{Complement.Text}</h2>
                 <p> {Complement.Definition} </p>
             </div>
             <div className="OptionsElement-Execution">
                 <input className={
-                    !ChangeCondition
+                    ChangeCondition
                     ? "OptionsElement-Execution-Input Execution-Allow"
                     : "OptionsElement-Execution-Input Execution-Off"
                 } type="checkbox" onClick={Execute} />

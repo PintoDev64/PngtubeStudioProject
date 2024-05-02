@@ -28,7 +28,8 @@ declare global {
       },
       App: {
         Checker: () => boolean,
-        AppDetails: () => AppDetails
+        AppDetails: () => AppDetails,
+        AppUpdates: (callback: (version: boolean) => any) => void
       }
     }
   }

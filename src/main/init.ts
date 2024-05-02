@@ -28,6 +28,9 @@ export default function InitProcess() {
         Avatars: `${join(homedir(), 'AppData\\Roaming\\PNGtubeSettings\\avatars')}`,
         Model: 'Ookami',
         Config: {
+            Integrations: {
+                Discord: true
+            },
             AudioFftsize: 128,
             hardwareAcceleration: true,
             NoiseSupression: true,

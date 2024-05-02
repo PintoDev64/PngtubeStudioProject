@@ -194,6 +194,10 @@
     font-size: medium;
 }
 
+.OptionsElement-Execution-Select:focus {
+    outline: none;
+}
+
 .SettingsRouter-Selected:before {
     position: absolute;
     content: "";
@@ -248,6 +252,7 @@
 
 .OptionsElementList,
 .OptionsElement {
+    position: relative;
     width: 100%;
     display: flex;
 }
@@ -257,7 +262,22 @@
 }
 
 #SettingsView-Content>div:nth-child(even) {
-    margin: 20px 0;
+    margin: 15px 0;
+}
+
+.OptionsElement-RequireRestart::after {
+    display: grid;
+    place-content: center;
+    font-size: small;
+    font-weight: bold;
+    content: "Requiere un reinicio";
+    bottom: 0;
+    position: relative;
+    width: 200px;
+    height: 20px;
+    background: linear-gradient(90deg, #ff2f00 0 10%, #00000030 10% 100%);
+    border-radius: 2.5px;
+    margin: 5px 0 0 0;
 }
 
 .OptionsElement-DataList,
@@ -432,11 +452,10 @@
     background: #ffffff;
     appearance: none;
     display: flex;
-    width: 35px;
-    height: 17.5px;
-    border: none;
-    border-top: 2px solid #000;
-    border-bottom: 2px solid #000;
+    width: 50px;
+    height: 25px;
+    border: 2px solid #000;
+    border-radius: 25px;
     transition: all .2s ease;
     align-items: center
 }
@@ -481,16 +500,30 @@
     background-color: #000000;
 }
 
+.Execution-Off::after,
+.Execution-Allow::after {
+    display: grid;
+    place-content: center;
+    font-weight: bold;
+    box-sizing: border-box;
+    width: 55%;
+    height: 100%;
+    border-radius: 20px;
+    outline: 1px solid #000000;
+}
+
 .Execution-Off:after {
     left: 0;
-    transition: all .2s ease;
-    outline: 1px solid #000000;
     background: #000000;
+    color: #ffffff;
+    content: "✖";
 }
 
 .Execution-Allow:after {
     right: 0;
-    background: #00ccff;
+    background: #00ff00;
+    color: #000000;
+    content: "✔";
 }
 
 #SettingsView-Content-Confirm {

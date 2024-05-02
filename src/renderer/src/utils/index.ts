@@ -31,9 +31,10 @@ export function WallpapersAPI() {
     }
 }
 export function AppAPI() {
-    const { AppDetails } = window.api.App;
+    const { AppDetails, AppUpdates } = window.api.App;
     return {
-        AppDetails
+        AppDetails,
+        AppUpdates
     }
 }
 

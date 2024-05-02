@@ -24,12 +24,13 @@ export interface IntComponentPropagator {
 
 // Complements
 export type TypeComplement = {
+    Text: string,
+    Definition: string,
     minLength?: number,
     maxLength?: number,
     steps?: number,
     Switch?: boolean,
-    Text: string,
-    Definition: string,
+    RequireRestart?: boolean,
     value?: string,
     Accept?: "Non-Drag" | "Drag",
     Actions?: "Delete" | "Select" | "Multi-Delete" | "Upload",
