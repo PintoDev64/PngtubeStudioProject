@@ -1,8 +1,8 @@
 // Components
 import Controls from "./Controls"
-import AvatarsShowcase from "./components/Avatars";
-import ModelViewer from "./components/Avatars/modelViewer";
-import Settings from "./components/Settings";
+import AvatarsShowcase from "./modules/Avatars";
+import ModelViewer from "./modules/Avatars/components/modelViewer";
+import Settings from "./modules/Settings";
 // Hooks
 import useBackgroundStyle from "./hooks/useBackgroundStyle";
 

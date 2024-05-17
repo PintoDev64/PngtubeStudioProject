@@ -1,6 +1,6 @@
 // Components
-import ControlButtons from "./components/ControlButtons";
-import Microphone from "./components/Microphone";
+import ControlButtons from "./modules/ControlButtons";
+import Microphone from "./modules/Microphone";
 
 export default function Controls() {
 

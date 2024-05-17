@@ -1,8 +1,8 @@
 // Modules
 import { useReducer } from "react";
-import { TypeSettingsReducerSettings } from "../../types/context";
+import { TypeSettingsReducerSettings } from "./types";
 // Types
-import { Contextinterface, TypeBaseConfig } from "@renderer/types";
+import { Contextinterface } from "@renderer/types";
 // Context
 import { SettingsContext } from "..";
 // Utils

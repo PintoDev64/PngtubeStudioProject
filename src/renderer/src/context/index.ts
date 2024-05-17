@@ -1,7 +1,7 @@
 import { createContext } from "react";
 
 // Types
-import { AudioContextProps, AvatarsContextProps, MemoryContextProps, SettingContextProps } from "@renderer/types/context";
+import { AudioContextProps, AvatarsContextProps, MemoryContextProps, SettingContextProps } from "./types";
 
 const AudioContext_Def = createContext<AudioContextProps>(null!)
 const AvatarsContext = createContext<AvatarsContextProps>(null!)
