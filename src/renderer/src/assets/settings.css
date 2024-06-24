@@ -334,7 +334,6 @@
 #OptionsElement-ListElement-Add {
     width: 100%;
     margin: 5px 0 0 0;
-    display: grid;
     place-items: center;
     height: 42px;
     max-height: 42px;
@@ -527,11 +526,14 @@
 }
 
 #SettingsView-Content-Confirm {
-    position: absolute;
-    bottom: -50px;
+    position: fixed;
+    bottom: 0px;
     left: 0;
     height: 35px;
     box-sizing: border-box;
+    font-weight: bold;
+    border: none;
+    border-top: 2px solid #000000;
     border-radius: 2.5px;
     width: 100%;
     background: #ffffff;

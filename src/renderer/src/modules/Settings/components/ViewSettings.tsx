@@ -14,7 +14,7 @@ export default function ViewSettings() {
 
     const { MemoryState, ModifyState } = useContext(MemoryContext);
 
-    const { SettingsRoutes, VoiceRoutes, AdvancedRoutes, IntegrationsRoutes } = Contants();
+    const { SettingsRoutes, VoiceRoutes, AdvancedRoutes, IntegrationsRoutes, AvatarsRoutes } = Contants();
     const { Compare, Discard, Save, SaveResponce } = useSettings()
 
     function DrawInterface() {
@@ -29,6 +29,9 @@ export default function ViewSettings() {
         }
         if (MemoryState.SettingRouter === 'Integrations') {
             return <ComponentsPropagator Data={IntegrationsRoutes} />
+        }
+        if (MemoryState.SettingRouter === 'Avatars') {
+            return <ComponentsPropagator Data={AvatarsRoutes} />
         } else {
             return <div></div>
         }

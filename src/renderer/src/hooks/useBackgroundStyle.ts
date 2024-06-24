@@ -11,6 +11,12 @@ export default function useBackgroundStyle() {
     const { SettingsState } = useContext(SettingsContext);
 
     const responceURLWallpaper = MemoryState.Wallpapers.find(({ Name }) => {
+        console.log({
+            Memory: Name,
+            Settings: SettingsState.Config.Custom.wallpaper,
+            Evaluation: Name === SettingsState.Config.Custom.wallpaper
+        });
+        
         return Name === SettingsState.Config.Custom.wallpaper
     });
 

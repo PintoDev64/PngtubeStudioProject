@@ -12,8 +12,8 @@ import { existsSync } from 'fs';
 import { autoUpdater } from 'electron-updater';
 import { Routes } from './constants';
 import { ReadFileBynari, isVersionGreater } from './utils';
-import { TypeBaseConfig } from './types';
 import { DiscordActivity } from './integrations';
+import { TypeBaseConfig } from './types';
 
 // init's
 let reactDevToolsPath: string;

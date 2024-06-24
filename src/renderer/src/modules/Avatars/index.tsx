@@ -18,6 +18,10 @@ export default function AvatarsShowcase() {
                         <li key={Id} className={`AvatarShowcase-List-Elements ${AvatarsState.Select === Id ? "AvatarShowcase-List-Element-Selected" : ""}`} onClick={() => {
                             if (AvatarsState.Select !== Id) {
                                 ModifyState({
+                                    action: 'State',
+                                    value: 0
+                                })
+                                ModifyState({
                                     action: "Select",
                                     value: Id
                                 })

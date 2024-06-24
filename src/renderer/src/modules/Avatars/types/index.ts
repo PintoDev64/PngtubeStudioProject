@@ -1,4 +1,5 @@
-import { TypeAudioConfig, TypeModelsConfig } from "@renderer/types/context"
+import { TypeAudioConfig } from "@renderer/context/audio/types"
+import { TypeModelsConfig } from "@renderer/context/avatars/types"
 import { Dispatch } from "react"
 
 export type TypeUpdateAvatarStyleClass = {

@@ -2,11 +2,13 @@
 import { useReducer } from "react";
 import { TypeSettingsReducerSettings } from "./types";
 // Types
-import { Contextinterface } from "@renderer/types";
+
 // Context
 import { SettingsContext } from "..";
 // Utils
 import { SettingsAPI } from "@renderer/utils";
+import { Contextinterface } from "../types";
+import { TypeBaseConfig } from "@renderer/env";
 
 export default function SettingsProvider({ children }: Contextinterface) {
 

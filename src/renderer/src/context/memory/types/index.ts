@@ -1,3 +1,5 @@
+import { TypeBaseConfig } from "@renderer/env"
+
 // ------------ Memory Context
 export type TypeModifyMemoryState = ({ action, value }: typeMemoryReducerSettings) => void
 export interface typeMemoryReducerSettings {
@@ -10,7 +12,7 @@ export type AppDetails = {
 export type DefaultValuesMemory = {
     Fullscreen: boolean,
     Settings: boolean,
-    SettingRouter: "Appareance" | "Advanced" | "Audio" | "Integrations",
+    SettingRouter: "Appareance" | "Advanced" | "Audio" | "Integrations" | "Avatars",
     AvatarsShowcase: boolean,
     AppDetails: AppDetails,
     SettingsPreload: TypeBaseConfig,

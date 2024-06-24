@@ -40,7 +40,12 @@ export default function ListComponent({
                 {
                     Complement.Elements?.map(({ IdElement, ImageElement, TextElement, DefinitionElement }) => {
                         return (
-                            <div key={IdElement} className="OptionsElement-ListElement" onClick={() => {Execute.Main(TextElement)}}>
+                            <div key={IdElement} className="OptionsElement-ListElement" onClick={() => {
+                                Execute.Main({
+                                    id: IdElement,
+                                    name: TextElement
+                                })
+                            }}>
                                 <div className="OptionsElement-ListElementImage">
                                     <img src={ImageElement} />
                                 </div>
@@ -49,7 +54,7 @@ export default function ListComponent({
                                     <p>{DefinitionElement}</p>
                                 </div>
                                 <div className="OptionsElement-ListElementAction">
-                                    <button onClick={() => {Execute.Secundary(IdElement)}} style={{
+                                    <button onClick={() => { Execute.Secundary(IdElement) }} style={{
                                         display: DefinitionElement === "Default" ? "none" : "grid"
                                     }}>
                                         <Close />
@@ -60,7 +65,7 @@ export default function ListComponent({
                     }
                     )
                 }
-                <div id="OptionsElement-ListElement-Add">
+                <div id="OptionsElement-ListElement-Add" style={{ display: Complement.value ? "grid" : "none" }}>
                     <button onClick={() => {
                         console.log("Añadir imagen")
                         InputFileRef.current.click()

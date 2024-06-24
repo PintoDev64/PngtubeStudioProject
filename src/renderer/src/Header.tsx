@@ -45,11 +45,10 @@ export default function Header() {
 
     useEffect(() => {
         console.log("timer started");
-
         const inter = setInterval(() => AppUpdates((version) => {
             console.log(version);
             setUpdates(version)
-        }), 15000)
+        }), 150000)
         return () => clearInterval(inter)
     }, [])
 

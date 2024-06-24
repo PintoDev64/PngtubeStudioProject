@@ -3,6 +3,7 @@ import { TypeModifyAllState, TypeModifySettingsState } from "../settings/types";
 import { TypeAudioConfig, TypeModifyAudioState } from "../audio/types";
 import { DefaultValuesMemory, TypeModifyMemoryState } from "../memory/types";
 import { TypeModelsConfig, TypeModifyModelState } from "../avatars/types";
+import { TypeBaseConfig } from "@renderer/env";
 
 export interface SettingContextProps {
     SettingsState: TypeBaseConfig,

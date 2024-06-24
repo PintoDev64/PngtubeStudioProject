@@ -1,3 +1,5 @@
+import { TypeBaseConfig } from "@renderer/env"
+
 // ------------ Settings Context
 export type TypeModifySettingsState = ({ action, value }: TypeSettingsReducerSettings) => void
 export type TypeModifyAllState = (value: TypeBaseConfig) => void

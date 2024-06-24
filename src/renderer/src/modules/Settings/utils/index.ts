@@ -3,7 +3,7 @@ import { useContext } from 'react';
 
 import { PropagtorStructureComponents, PropagtorStructureList } from "../types";
 
-import { MemoryContext, SettingsContext } from "../../../context"
+import { AvatarsContext, MemoryContext, SettingsContext } from "../../../context"
 import Color from '../../../assets/components/Color';
 import Select from '../../../assets/components/Select';
 import Checkbox from '@renderer/assets/components/Checkbox';
@@ -13,15 +13,17 @@ import useSaveSettings from '@renderer/modules/Settings/hooks/useSaveSettings';
 
 export default function Contants() {
 
-    const { Save } = useSaveSettings()
+    const { Save } = useSaveSettings();
 
     const { Deleter } = WallpapersAPI();
 
-    const { MemoryState, ModifyState: ModifyMemory } = useContext(MemoryContext)
+    const { AvatarsState, ModifyState: ModifyAvatars } = useContext(AvatarsContext);
+
+    const { MemoryState, ModifyState: ModifyMemory } = useContext(MemoryContext);
 
     const { SettingsState, ModifyState: ModifySettings } = useContext(SettingsContext);
 
-    // Functions
+    //#region Appareance Functions
     function TypeBackground() {
         ModifySettings({
             action: 'Config',
@@ -35,27 +37,23 @@ export default function Contants() {
         })
     }
 
-    function CustomBackground(name: string) {
-        if (name !== SettingsState.Config.Custom.wallpaper) {
+    function CustomBackground(args) {
+        if (args.name !== SettingsState.Config.Custom.wallpaper) {
             ModifySettings({
                 action: 'Config',
                 value: {
                     ...SettingsState.Config,
                     Custom: {
                         ...SettingsState.Config?.Custom,
-                        wallpaper: name
+                        wallpaper: args.name
                     }
                 }
             })
-            console.log("CustomBackground", name);
         }
     }
 
     function RemoveBackground(value: number) {
-        ModifyMemory({
-            action: 'Wallpapers',
-            value: Deleter(value)
-        })
+        console.log(MemoryState.Wallpapers[0].Name);
         ModifySettings({
             action: 'Config',
             value: {
@@ -65,6 +63,10 @@ export default function Contants() {
                     wallpaper: MemoryState.Wallpapers[0].Name
                 }
             }
+        })
+        ModifyMemory({
+            action: 'Wallpapers',
+            value: Deleter(value)
         })
         Save()
     }
@@ -94,6 +96,8 @@ export default function Contants() {
             }
         })
     }
+
+    //#region Audio Functions
 
     function ChangeFftsize(value: string) {
         ModifySettings({
@@ -134,6 +138,8 @@ export default function Contants() {
         });
     }
 
+    //#region Advanced Functions
+
     function ChangeHardwareAcceleration() {
         ModifySettings({
             action: 'Config',
@@ -146,6 +152,8 @@ export default function Contants() {
             }
         })
     }
+
+    //#region Integrations Functions
 
     function ChangeDiscordIntegrations() {
         ModifySettings({
@@ -161,6 +169,28 @@ export default function Contants() {
                 }
             }
         })
+    }
+
+    //#region Avatars Functions
+
+    function ChangeAvatarName(AvatarId: number, NewAvatarName: string) {
+        const ElementToModify = AvatarsState.Data.findIndex(({ Id }) => Id === AvatarId)
+        const response = [
+            ...AvatarsState.Data
+        ]
+
+        response[ElementToModify] = {
+            ...response[ElementToModify],
+            Name: NewAvatarName
+        }
+        console.log(response[ElementToModify]);
+        /* ModifyAvatars({
+            action: 'Data',
+            value: [
+                ...response,
+
+            ]
+        }) */
     }
 
     // Miscelaneo
@@ -210,6 +240,7 @@ export default function Contants() {
                 Accept: 'Drag',
                 Actions: 'Select',
                 Text: "Fondos",
+                value: "true",
                 Definition: "Se recomiendan imagenes de formato horizontal (16:9)",
                 Elements: MemoryState.Wallpapers.map(({ Name, Source, Type }, index) => {
                     return {
@@ -284,6 +315,35 @@ export default function Contants() {
         }
     ]
 
+    const AvatarsRoutes: PropagtorStructureComponents[] = [
+        {
+            Id: 0,
+            Component: ListComponent,
+            Execute: {
+                Main: (args) => {
+                    ChangeAvatarName(args.id, args.name)
+                },
+                Secundary(args) {
+                    console.log(args);
+                },
+            },
+            Complement: {
+                Accept: 'Drag',
+                Actions: 'Select',
+                Text: "Avatares",
+                Definition: "Puedes cambiar los nombres de los modelos que poseas aqui",
+                Elements: AvatarsState.Data.map(({ Name, Date: modelDate, Image, Id }) => {
+                    return {
+                        IdElement: Id,
+                        ImageElement: Image,
+                        TextElement: Name,
+                        DefinitionElement: new Date(modelDate).toLocaleString()
+                    }
+                })
+            }
+        }
+    ]
+
     const SettingsListDetails: PropagtorStructureList = [
         {
             Id: 0,
@@ -314,13 +374,23 @@ export default function Contants() {
         },
         {
             Id: 3,
+            Text: "👥 Avatares",
+            ChangeCondition: MemoryState.SettingRouter === "Avatars",
+            Execution: () => ModifyMemory({
+                action: 'SettingRouter',
+                value: 'Avatars'
+            })
+        },
+        {
+            Id: 4,
             Text: "🔨 Avanzado",
             ChangeCondition: MemoryState.SettingRouter === "Advanced",
             Execution: () => ModifyMemory({
                 action: 'SettingRouter',
                 value: "Advanced"
             })
-        }
+        },
+        
     ]
 
     return {
@@ -329,6 +399,7 @@ export default function Contants() {
         VoiceRoutes,
         IntegrationsRoutes,
         AdvancedRoutes,
+        AvatarsRoutes,
         consts: {
             VoiceFftsizes
         }

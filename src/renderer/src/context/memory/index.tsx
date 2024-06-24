@@ -2,9 +2,9 @@
 import { useContext, useReducer } from 'react';
 
 import { MemoryContext, SettingsContext} from "..";
-import { Contextinterface } from '@renderer/types';
-import { DefaultValuesMemory, typeMemoryReducerSettings } from '@renderer/types/context';
 import { AppAPI, WallpapersAPI } from '@renderer/utils';
+import { Contextinterface } from '../types';
+import { DefaultValuesMemory, typeMemoryReducerSettings } from './types';
 
 export default function MemoryProvider({ children }: Contextinterface) {
 

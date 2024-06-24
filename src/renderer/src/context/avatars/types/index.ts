@@ -14,10 +14,11 @@ export type TypeModelConfigBase = {
 }[]
 export type TypeModifyModelState = ({ action, value }: typeModelReducerSettings) => void
 export interface typeModelReducerSettings {
-    action: "Data" | "Select",
+    action: "Data" | "Select" | "State",
     value: TypeModelConfigBase | number
 }
 export type TypeModelsConfig = {
     Data: TypeModelConfigBase,
     Select: number,
+    State: number
 }

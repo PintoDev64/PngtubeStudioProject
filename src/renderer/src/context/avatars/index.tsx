@@ -1,8 +1,9 @@
-import { Contextinterface } from "@renderer/types";
-import { TypeModelsConfig, typeModelReducerSettings } from "@renderer/types/context";
+
 import { AvatarsAPI } from "@renderer/utils";
 import { useReducer } from "react";
 import { AvatarsContext } from "..";
+import { Contextinterface } from "@renderer/env";
+import { TypeModelsConfig, typeModelReducerSettings } from "./types";
 
 export default function AvatarsProvider({ children }: Contextinterface) {
 
@@ -10,7 +11,8 @@ export default function AvatarsProvider({ children }: Contextinterface) {
 
     const DefaultValues: TypeModelsConfig = {
         Data: Receiver(),
-        Select: 1
+        Select: 1,
+        State: 0
     }
 
     function reducer(state: TypeModelsConfig, { action, value }: typeModelReducerSettings) {

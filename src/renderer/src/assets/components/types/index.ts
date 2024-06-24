@@ -1,3 +1,5 @@
+import { TypeComplement } from "@renderer/env"
+
 export type CheckboxType = {
     Execute: () => void,
     Complement: TypeComplement

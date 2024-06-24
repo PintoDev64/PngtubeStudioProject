@@ -8,8 +8,8 @@ export default function UpdateAvatarStyleClass({
     setActualModel
 }: TypeUpdateAvatarStyleClass
 ) {
-    const State_1 = AvatarsState.Data[AvatarsState.Select - 1].Data.States[0][0]
-    const State_2 = AvatarsState.Data[AvatarsState.Select - 1].Data.States[0][1]
+    const State_1 = AvatarsState.Data[AvatarsState.Select - 1].Data.States[AvatarsState.State][0]
+    const State_2 = AvatarsState.Data[AvatarsState.Select - 1].Data.States[AvatarsState.State][1]
 
     if (AudioState.State) {
         if ((Volume / AudioState.Amplifier) * 100 < (AudioState.Sensibility / 100) * 100) {
@@ -24,5 +24,4 @@ export default function UpdateAvatarStyleClass({
         Animate.classList.remove('AvatarActive');
         setActualModel(State_1)
     }
-
 }
