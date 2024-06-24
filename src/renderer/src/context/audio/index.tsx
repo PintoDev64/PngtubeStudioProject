@@ -2,10 +2,11 @@ import { useReducer } from "react";
 
 // Context
 import { AudioContext_Def } from "..";
+import { TypeAudioConfig, TypeAudioReducerSettings } from "./types";
+import { Contextinterface } from "@renderer/env";
 
 // Types
-import { TypeAudioConfig, TypeAudioReducerSettings } from "@renderer/types/context";
-import { Contextinterface } from "@renderer/types";
+
 
 export default function AudioProvider({ children }: Contextinterface) {
 

@@ -17,7 +17,7 @@ export default function Contants() {
 
     const { Deleter } = WallpapersAPI();
 
-    const { AvatarsState, ModifyState: ModifyAvatars } = useContext(AvatarsContext);
+    const { AvatarsState } = useContext(AvatarsContext);
 
     const { MemoryState, ModifyState: ModifyMemory } = useContext(MemoryContext);
 
